@@ -5,9 +5,11 @@ import "./RCC.sol";
 contract RccDao {
     
     address owner;
+    RCC rcc;
     
-    constructor() public {
+    constructor(address rcc_address) public {
         owner = msg.sender;
+        rcc = RCC(rcc_address);        
     }
     
     modifier onlyOwner {
@@ -50,7 +52,7 @@ contract RccDao {
         
         // Se añade como Minter al nuevo asociado
         if (minter){
-            //RCC(_address).addMinter(_address);
+            rcc.addMinter(_address);            
         }
         
     }
@@ -63,7 +65,7 @@ contract RccDao {
         
         // Se elimina la propiedad de Minter al asociado
         if (_associated[_address].minter){
-            //RCC(_address).renounceMinter();
+            rcc.renounceMinter();
         }
          
         return true;
@@ -89,7 +91,7 @@ contract RccDao {
     
     function askSupply(address _address, uint amount) public returns (bool) {
         if (_associated[_address].minter){
-            //RCC(_address).approve(msg.sender,amount);
+            rcc.approve(msg.sender,amount);
         }
     }
     

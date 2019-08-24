@@ -7,7 +7,7 @@ contract RCC is ERC20, ERC20Mintable  {
 
 	string public name = "Recycling Coin";
 	string public symbol = "RCC";
-	uint8 public decimals = 10;
+	uint8 public decimals = 4;
 	uint public INITIAL_SUPPLY = 1000000;
 
 	constructor() public {

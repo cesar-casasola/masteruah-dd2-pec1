@@ -11,8 +11,12 @@ import {
   MatOptionModule,
   MatSelectModule, MatSnackBarModule
 } from '@angular/material';
+import {MatExpansionModule} from '@angular/material'
+import { MatTableModule } from '@angular/material';
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RccComponent } from './rcc/rcc.component';
+import { RccDaoComponent } from './rcc-dao/rcc-dao.component';
 
 @NgModule({
   imports: [
@@ -26,9 +30,11 @@ import { RccComponent } from './rcc/rcc.component';
     MatSelectModule,
     MatSnackBarModule,
     RouterModule,
-    UtilModule
+    UtilModule,
+    MatExpansionModule,
+    MatTableModule
   ],
-  declarations: [MetaSenderComponent, RccComponent],
+  declarations: [MetaSenderComponent, RccComponent, RccDaoComponent],
   exports: [MetaSenderComponent]
 })
 export class MetaModule {

@@ -10,7 +10,7 @@ declare let window: any;
 @Injectable()
 export class Web3Service {
   private web3: any;
-  private accounts: string[];
+  public accounts: string[];
   public ready = false;
 
   public accountsObservable = new Subject<string[]>();
@@ -23,7 +23,7 @@ export class Web3Service {
 
   public bootstrapWeb3() {
     // Checking if Web3 has been injected by the browser (Mist/MetaMask)
-    if (typeof window.web3 !== 'undefined') {
+    if (typeof window.web3 == 'undefined') {
       // Use Mist/MetaMask's provider
       this.web3 = new Web3(window.web3.currentProvider);
     } else {
@@ -51,7 +51,7 @@ export class Web3Service {
 
   }
 
-  private refreshAccounts() {
+  public refreshAccounts() {
     this.web3.eth.getAccounts((err, accs) => {
       console.log('Refreshing accounts');
       if (err != null) {

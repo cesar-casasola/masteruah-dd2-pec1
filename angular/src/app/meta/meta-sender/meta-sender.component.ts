@@ -27,13 +27,14 @@ export class MetaSenderComponent implements OnInit {
     console.log('Constructor: ' + web3Service);
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+
     console.log('OnInit: ' + this.web3Service);
     console.log(this);
     this.watchAccount();
     this.web3Service.artifactsToContract(metacoin_artifacts)
       .then((MetaCoinAbstraction) => {
-        this.MetaCoin = MetaCoinAbstraction;
+        this.MetaCoin = MetaCoinAbstraction;        
         this.MetaCoin.deployed().then(deployed => {
           console.log(deployed);
           deployed.Transfer({}, (err, ev) => {
@@ -87,11 +88,12 @@ export class MetaSenderComponent implements OnInit {
   async refreshBalance() {
     console.log('Refreshing balance');
 
-    try {
+    try {      
       const deployedMetaCoin = await this.MetaCoin.deployed();
       console.log(deployedMetaCoin);
       console.log('Account', this.model.account);
-      const metaCoinBalance = await deployedMetaCoin.getBalance.call(this.model.account);
+      
+      const metaCoinBalance = await deployedMetaCoin.getBalance.call(this.model.account);      
       console.log('Found balance: ' + metaCoinBalance);
       this.model.balance = metaCoinBalance;
     } catch (e) {
