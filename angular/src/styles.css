@@ -1,2 +1,299 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* You can add global styles to this file, and also import other style files */
+@import "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css";
+
+
+.img-responsive{
+  height:auto;
+  width: auto;
+  max-height: 30px;
+  max-width: 30px;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid rgb(96, 167, 100); /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a75a59; /* red */
+}
+
+.ragstatus-green{    
+  background-color: rgb(207, 245, 226)
+}
+
+.ragstatus-green[readonly]{    
+  background-color: rgb(207, 245, 226)
+}
+
+.ragstatus-green:focus{    
+  background-color: rgb(207, 245, 226)
+}
+
+.ragstatus-red{
+  background-color: rgb(255, 209, 209)
+}
+
+.ragstatus-red[readonly]{
+  background-color: rgb(255, 209, 209)
+}
+
+.ragstatus-red:focus{
+  background-color: rgb(255, 209, 209)
+}
+
+.ragstatus-amber{
+  background-color: rgb(247, 234, 177)
+}
+
+.ragstatus-amber:focus{
+  background-color: rgb(247, 234, 177)
+}
+
+.ragstatus-amber[readonly]{
+  background-color: rgb(247, 234, 177)
+}
+
+.border-fujitsu {
+    border-color: #eb4c37;
+    border-width: 1px;
+  }
+
+.bg-fujitsu-header {
+  background: rgb(233, 0, 0);  
+}
+
+.btn-fujitsu{
+  min-width: 6rem;
+}
+
+.text-fujitsu-header {
+  color: rgb(238, 226, 226);
+  padding:0px;
+  margin-left:5px;
+  margin-right:5px;
+  font-size: 1.2rem;
+  vertical-align: center;
+}
+
+.text-fujitsu-menu {
+  color: rgb(39, 11, 11);
+  padding:10px;  
+}
+
+.selected-fujitsu-menu {  
+  background-color: #777575;    
+  color: rgb(238, 226, 226);
+  padding:10px;  
+}
+
+.ng-sidebar--left {  
+  background: rgb(228, 228, 228);
+  width: 12rem;
+}
+
+.bg-fujitsu {
+    background-color: #ff1e00;
+  }
+
+.text-fujitsu-card {
+    color: rgb(238, 226, 226);    
+    font-size: 120%;
+ }
+
+.card-header-fujitsu {    
+    padding: .2rem .2rem;    
+    margin-top: 0;    
+    margin-bottom: 0;    
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    color: #fff;
+    font-size: 1.2rem;
+    text-align: center
+}
+
+.card-border-fujitsu { 
+  border-color: red;
+}
+
+.card-close-fujitsu { 
+  color:white;
+  font-size: 1.3rem;
+  text-align: right;
+  float: right
+}
+
+.card-body-fujitsu{
+  padding: .6rem .6rem;  
+  
+}
+
+/* unvisited link */
+.text-link {
+  color: red;  
+}
+
+/* visited link */
+.text-link:visited {
+  color: green;
+}
+
+/* mouse over link */
+.text-link:hover {
+  color: hotpink;
+  cursor: pointer;
+}
+
+/* selected link */
+.text-link:active {
+  color: blue;
+}
+
+.fujitsu-table {
+  background-color: rgb(240, 240, 240);
+  border: 2px solid white;
+  border-collapse: collapse;  
+  font-size: 0.8rem;  
+  margin-bottom: 0;    
+}
+
+.fujitsu-table th { 
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border: 3px solid white;
+  text-align: left;
+  background-color: rgb(117, 117, 117);
+  font-weight: normal;
+  color: white;
+  height: 2.0rem;  
+}
+
+.fujitsu-table td { 
+
+  padding: 8px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  text-align: left;  
+  color: rgb(24, 24, 24);    
+  border: solid white 3px;  
+}
+
+.fujitsu-table tr.active td {
+  background-color:#cf504b !important;
+  color: white;
+}
+
+.fujitsu-table > tbody >tr:hover {
+  background-color:  rgb(245, 184, 184);
+  cursor: pointer;
+}
+
+.fujitsu-table-input input {
+  font-size: 0.8rem;      
+  margin: 0.05rem;    
+  text-align: right;
+  border: 1px;
+  border-radius: .0rem;  
+}
+
+.fujitsu-table-input td { 
+  padding: 0px;  
+  background-color: rgb(240, 238, 238);
+  color: rgb(34, 22, 85);  
+  min-width:6rem;
+}
+
+.fujitsu-table-resources-header th { 
+  font-size: 0.8rem;
+  background-color: rgb(77, 73, 73);
+  max-height: 1.4rem;
+  padding-bottom: 6px;
+}
+
+.fujitsu-table-resources-header2 { 
+  font-size: 0.8rem;
+  background-color: #ff1e00;
+  max-height: 1.4rem;  
+}
+
+.fujitsu-table-resources td { 
+  padding-top: 2px;
+  padding-bottom: 2px;
+  max-height: 1.4rem;  
+}
+
+.fujitsu-table-resources th { 
+  color: rgb(238, 226, 226);
+  padding-top: 2px;  
+  max-height: 1.4rem;
+}
+
+.fujitsu-table-resources-input input{ 
+  font-size: 0.8rem;      
+  margin: 0.05rem;    
+  text-align: right;
+  border: 1px;
+  border-radius: .0rem;  
+  max-height: 1.3rem;  
+  width:5rem;
+}
+
+.fujitsu-table-resources-input td { 
+  padding: 0px;  
+  background-color: rgb(240, 238, 238);
+  color: rgb(34, 22, 85);    
+  height: 1.5rem;
+}
+
+.fujitsu-table-resources-totales td { 
+  padding: 0px;  
+  background-color: rgb(240, 238, 238);
+  color: rgb(34, 22, 85);  
+  min-width:6rem;
+}
+
+
+table tr td.ragstatus-status
+{
+    vertical-align:middle;
+    font-weight: bold; 
+    font-size: 0.8rem
+}
+
+table tr td.ragstatus-history-value
+{
+    vertical-align:middle;
+    text-align: center;
+}
+
+table tr td.ragstatus-value
+{
+    padding:0; 
+    padding-top:0px;
+    padding-bottom: 0px
+}
+
+input.ragstatus-input
+{
+    height: 3.5rem;
+    vertical-align:middle;
+    text-align: center
+}
+
+.indicators-button
+{
+    border: 0;
+    background: none;
+    -webkit-appearance: none;    
+    vertical-align:middle;
+    text-align: center;
+    font-weight: bold;
+    padding:0.5rem;
+    margin:0 
+}
+
+
+
+
+ 

@@ -4,8 +4,8 @@ import { MatSnackBar } from '@angular/material';
 
 
 declare let require: any;
-const rccDao_contract = require('../../../../../truffle/build/contracts/RccDao.json');
-const rcc_contract = require('../../../../../truffle/build/contracts/RCC.json');
+const rccDao_truffle_contract = require('../../../../../truffle/build/contracts/RccDao.json');
+const rcc_truffle_contract = require('../../../../../truffle/build/contracts/RCC.json');
 
 export interface IAssociated {
   address: string;
@@ -14,16 +14,19 @@ export interface IAssociated {
 }
 
 @Component({
-  selector: 'app-rcc-dao',
-  templateUrl: './rcc-dao.component.html',
-  styleUrls: ['./rcc-dao.component.css']
+  selector: 'app-rcc-dao-b',
+  templateUrl: './rcc-dao-b.component.html',
+  styleUrls: ['./rcc-dao-b.component.css']
 })
-export class RccDaoComponent implements OnInit {
-
-  accounts: string[];
+export class RccDaoBComponent implements OnInit {
+  
   associatedList: string[];  
+
   rcc_contract: any;
+  deployedRcc: any;
+
   rccDao_contract: any;
+  deployedRccDao: any;
 
   default_account = {
     amount: 0,
@@ -51,48 +54,42 @@ export class RccDaoComponent implements OnInit {
 
   ngOnInit() {
     console.log('OnInit: ' + this.web3Service);
-    this.watchAccount();
-    this.web3Service.artifactsToContract(rccDao_contract)
+    this.refreshAccount().then(() =>{
+      console.log('Default account: ' + this.default_account.account);        
+      this.refreshDefaultAccountBalance();  
+    })
+
+    this.web3Service.getToContract(rccDao_truffle_contract)
       .then((RccDaoAbstraction) => {
         this.rccDao_contract = RccDaoAbstraction;
         this.rccDao_contract.deployed().then(deployed => {
-          console.log(deployed);
-          /*
-          deployed.Transfer({}, (err, ev) => {
-            console.log('Transfer event came in, refreshing balance');
-            this.refreshBalance();
-          });
-          */
+          this.deployedRccDao = deployed;          
         });
       });      
 
-    this.web3Service.artifactsToContract(rcc_contract)
+    this.web3Service.getToContract(rcc_truffle_contract)
       .then((RccAbstraction) => {
         this.rcc_contract = RccAbstraction;
         this.rcc_contract.deployed().then(deployed => {
-          console.log(deployed);          
-          /*
-          deployed.Transfer({}, (err, ev) => {
-            console.log('Transfer event came in, refreshing balance');
-            this.refreshBalance();
-          });
-          */
+          this.deployedRcc = deployed;
+          console.log(deployed);                       
         });
       });      
     }
 
-    watchAccount() {  
-      this.accounts =  this.web3Service.accounts;   
-      this.default_account.account = this.accounts[0];
-      this.refreshBalance();     
+    async refreshAccount() {       
+      if (!this.web3Service.accounts){        
+        this.web3Service.accountsObservable.subscribe((accounts) => {              
+          this.default_account.account = accounts[0];                
+        });     
+      }else{              
+        this.default_account.account = this.web3Service.accounts[0];  
+      }
     }
 
     async init() {
-      try {
-        const deployedRcc = await this.rcc_contract.deployed();
-        const deployedRccDao = await this.rccDao_contract.deployed();        
-        const transaction = await deployedRcc.addMinter.sendTransaction(deployedRccDao.address, {from: this.default_account.account});
-  
+      try {     
+        const transaction = await this.deployedRcc.addMinter.sendTransaction(this.deployedRccDao.address, {from: this.default_account.account});  
         if (!transaction) {
           this.setStatus('Transaction failed!');
           console.log('Transaction failed!');
@@ -106,15 +103,16 @@ export class RccDaoComponent implements OnInit {
       }
     }
 
-    async refreshBalance() {
+    async refreshDefaultAccountBalance() {
       console.log('Refreshing balance');
       try {
-        const deployedRcc = await this.rcc_contract.deployed();
-        console.log(deployedRcc);
         console.log('Account', this.default_account.account);
-        const rccBalance = await deployedRcc.balanceOf.call(this.default_account.account);
-        console.log('Found balance: ' + rccBalance);
+
+        const rccBalance = await this.deployedRcc.balanceOf.call(this.default_account.account);
         this.default_account.balance = rccBalance;
+
+        console.log('Found balance: ' + rccBalance);
+        
       } catch (e) {
         console.log(e);
         this.setStatus('Error getting balance; see log.');
@@ -133,8 +131,7 @@ export class RccDaoComponent implements OnInit {
       this.setStatus('Initiating transaction... (please wait)');
       console.log('Initiating transaction... (please wait)');
       try {
-        const deployedRccDao = await this.rccDao_contract.deployed();
-        const transaction = await deployedRccDao.newAssociated.sendTransaction(this.new_associated.address, this.new_associated.name, this.new_associated.ref, true, true, {from: this.default_account.account});
+        const transaction = await this.deployedRccDao.newAssociated.sendTransaction(this.new_associated.address, this.new_associated.name, this.new_associated.ref, true, true, {from: this.default_account.account});
   
         if (!transaction) {
           this.setStatus('Transaction failed!');

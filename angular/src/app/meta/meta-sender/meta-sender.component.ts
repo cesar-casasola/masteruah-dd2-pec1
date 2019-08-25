@@ -32,7 +32,8 @@ export class MetaSenderComponent implements OnInit {
     console.log('OnInit: ' + this.web3Service);
     console.log(this);
     this.watchAccount();
-    this.web3Service.artifactsToContract(metacoin_artifacts)
+    
+    this.web3Service.getToContract(metacoin_artifacts)
       .then((MetaCoinAbstraction) => {
         this.MetaCoin = MetaCoinAbstraction;        
         this.MetaCoin.deployed().then(deployed => {

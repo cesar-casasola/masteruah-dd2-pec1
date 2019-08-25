@@ -1,0 +1,31 @@
+<div class="card border-fujitsu w-100">
+  <span  class="card-header-fujitsu bg-fujitsu" >New Associated
+      <button type="button" class="close card-close-fujitsu"  [attr.aria-label]="'Close'" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>            
+  </span>  
+  <div class="card-body card-body-fujitsu">
+    <form class="form" [formGroup]="addAssociated" >          
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Address</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Address" formControlName="address" required autofocus [(ngModel)]="associated.address" >
+      </div>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Name</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Name" formControlName="name" required [(ngModel)]="associated.name" >
+      </div>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Ref</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Ref" formControlName="ref" required [(ngModel)]="associated.ref" >
+      </div>      
+      <div class="btn-group" style = "float:right">
+        <button  *ngIf="mode=='add'" type="submit" [disabled]="!addAssociated.valid" class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="add()">Add</button>        
+        <button aria-label="Cancel" type="submit" class="btn btn-mg btn-outline-secondary btn-fujitsu pull-right" (click)="closeModal()">Cancel</button>      
+      </div>
+    </form>
+  </div>
+</div> 

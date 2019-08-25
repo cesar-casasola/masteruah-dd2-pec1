@@ -16,7 +16,7 @@ import { MatTableModule } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { RccComponent } from './rcc/rcc.component';
-import { RccDaoComponent } from './rcc-dao/rcc-dao.component';
+import { RccDaoBComponent } from './rcc-dao/rcc-dao-b.component';
 
 @NgModule({
   imports: [
@@ -34,7 +34,7 @@ import { RccDaoComponent } from './rcc-dao/rcc-dao.component';
     MatExpansionModule,
     MatTableModule
   ],
-  declarations: [MetaSenderComponent, RccComponent, RccDaoComponent],
+  declarations: [MetaSenderComponent, RccComponent, RccDaoBComponent],
   exports: [MetaSenderComponent]
 })
 export class MetaModule {

@@ -52,8 +52,8 @@ export class RccComponent implements OnInit {
   ngOnInit() {
     console.log('OnInit: ' + this.web3Service);
     console.log(this);
-    this.watchAccount();
-    this.web3Service.artifactsToContract(rcc_contract)
+    this.refreshAccount();
+    this.web3Service.getToContract(rcc_contract)
       .then((RccAbstraction) => {
         this.rcc_contract = RccAbstraction;
         this.rcc_contract.deployed().then(deployed => {
@@ -69,13 +69,23 @@ export class RccComponent implements OnInit {
       });
   }
 
-  watchAccount() {
-    this.accounts =  this.web3Service.accounts;   
-      this.default_account.account = this.accounts[0];
-      this.refreshBalance();     
+  async refreshAccount() {       
+    if (!this.web3Service.accounts){        
+      this.web3Service.accountsObservable.subscribe((accounts) => {          
+        this.accounts = accounts;
+        this.default_account.account = this.accounts[0];      
+        console.log('Default account: ' + this.default_account.account);        
+        this.refreshDefaultAccountBalance();  
+      });     
+    }else{
+      this.accounts = this.web3Service.accounts;
+      this.default_account.account = this.accounts[0];  
+      console.log('Default account: ' + this.default_account.account);      
+      this.refreshDefaultAccountBalance(); 
+    }
   }
 
-  async refreshBalance() {
+  async refreshDefaultAccountBalance() {
     console.log('Refreshing balance');
     try {
       const deployedRcc = await this.rcc_contract.deployed();
@@ -124,7 +134,7 @@ export class RccComponent implements OnInit {
       } else {
         this.setStatus('Transaction complete!');
         console.log('Transaction complete!');
-        this.refreshBalance();
+        this.refreshDefaultAccountBalance();
       }
     } catch (e) {
       console.log(e);
@@ -191,7 +201,7 @@ export class RccComponent implements OnInit {
       } else {
         this.setStatus('Transaction complete!');
         console.log('Transaction complete!');
-        this.refreshBalance();
+        this.refreshDefaultAccountBalance();
         this.refreshRccBalance();
       }
     } catch (e) {
@@ -244,7 +254,7 @@ export class RccComponent implements OnInit {
       } else {
         this.setStatus('Transaction complete!');
         console.log('Transaction complete!');
-        this.refreshBalance();
+        this.refreshDefaultAccountBalance();
         this.refreshMintBalance();
       }
     } catch (e) {

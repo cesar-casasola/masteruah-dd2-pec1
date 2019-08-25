@@ -1,0 +1,42 @@
+<div class="card border-fujitsu w-100">
+  <span  class="card-header-fujitsu bg-fujitsu" >RCC Transaction Panel
+      <button type="button" class="close card-close-fujitsu"  [attr.aria-label]="'Close'" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>            
+  </span>  
+  <div class="card-body card-body-fujitsu">
+    <form class="form" [formGroup]="rccForm" >          
+      <div *ngIf="mode=='send'" class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Address</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Address" formControlName="address" required autofocus [(ngModel)]="rcc.address" >
+      </div>
+      <div *ngIf="mode=='send_internal'" class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Wallet Address</span>
+        </div>
+        <select class="form-control" formControlName="address_wallet" [(ngModel)]="rcc.address" >           
+          <option *ngFor="let account of web3Service.accounts" >{{account}}</option> 
+        </select> 
+      </div> 
+      <div *ngIf="mode=='minter'" class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Associated Address</span>
+        </div>
+        <select class="form-control" formControlName="address_associated" [(ngModel)]="rcc.address" >           
+          <option *ngFor="let account of rccDaoService.associatedList" >{{account}}</option> 
+        </select> 
+      </div>      
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Amount</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Amount" formControlName="amount" required [(ngModel)]="rcc.amount" >
+      </div>            
+      <div class="btn-group" style = "float:right">
+        <button  *ngIf="mode=='send' || mode=='send_internal'" type="submit" [disabled]="!rccForm.valid" class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="send()">Send</button>        
+        <button  *ngIf="mode=='minter'" type="submit" [disabled]="!rccForm.valid" class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="mint()">Mint</button>        
+        <button aria-label="Cancel" type="submit" class="btn btn-mg btn-outline-secondary btn-fujitsu pull-right" (click)="closeModal()">Cancel</button>      
+      </div>
+    </form>
+  </div>
+</div> 

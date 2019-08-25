@@ -10,7 +10,11 @@ import { MatTableModule } from '@angular/material';
 import { Routes, RouterModule } from '@angular/router';
 import { MetaSenderComponent } from './meta/meta-sender/meta-sender.component';
 import { RccComponent } from './meta/rcc/rcc.component';
-import { RccDaoComponent } from './meta/rcc-dao/rcc-dao.component';
+import { RccDaoBComponent } from './meta/rcc-dao/rcc-dao-b.component';
+
+import { RccDaoComponent } from './rccDao/rccDao/rccDao.component';
+
+import { RccDaoModule } from './rccDao/rccDao.module';
 
 import { AppComponent } from './app.component';
 import { MetaModule } from './meta/meta.module';
@@ -27,6 +31,7 @@ import {
 const routes: Routes = [
   { path: 'meta', component: MetaSenderComponent },
   { path: 'rcc', component: RccComponent },
+  { path: 'rccDaoB', component: RccDaoBComponent },
   { path: 'rccDao', component: RccDaoComponent },
   { path: '', redirectTo: '/meta', pathMatch: 'full' }
 ];
@@ -49,7 +54,8 @@ const routes: Routes = [
     HttpClientModule,
     MetaModule,
     MatMenuModule,
-    MatTableModule   
+    MatTableModule,
+    RccDaoModule  
   ],
   providers: [],
   bootstrap: [AppComponent]

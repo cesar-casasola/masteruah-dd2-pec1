@@ -1262,12 +1262,12 @@
         }
       },
       "links": {},
-      "address": "0x7f917F5bf34da4Dc2DfcE1A790cf09dCF3199Fa8",
-      "transactionHash": "0x1945ac0d94199bc0a11f61da48b70ccba4be2e587b1fcfdc6438f215cc5f60e8"
+      "address": "0x91475a3495c75C327a434e777Ba4C60Fab76B1a0",
+      "transactionHash": "0x896ebec73029cb7418261ab70226ea48b81111d6daf60fb1bf5bd10badff2a98"
     }
   },
   "schemaVersion": "3.0.13",
-  "updatedAt": "2019-08-24T18:12:59.177Z",
+  "updatedAt": "2019-08-25T10:37:19.639Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

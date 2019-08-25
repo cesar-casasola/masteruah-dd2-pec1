@@ -3,8 +3,8 @@
   <mat-card-header>Default Account</mat-card-header>
   <mat-card-content>
     <mat-form-field id="address-selector" class="address-field">
-      <mat-select name="account" (selectionChange)="refreshBalance()" [(value)]="default_account.account" placeholder="Address">
-        <mat-option *ngFor="let account of accounts" [value]="account">{{account}}</mat-option>
+      <mat-select name="account" (selectionChange)="refreshDefaultAccountBalance()" [(value)]="default_account.account" placeholder="Address">
+        <mat-option *ngFor="let account of web3Service.accounts" [value]="account">{{account}}</mat-option>
       </mat-select>
     </mat-form-field>
     <p>You have <span id="balance">{{default_account.balance}}</span> RCC</p>
