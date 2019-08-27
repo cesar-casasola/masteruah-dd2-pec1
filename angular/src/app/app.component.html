@@ -1,16 +1,28 @@
-<mat-toolbar color="primary">
-  <span>Angular Truffle Box</span>
 
-  <span class="example-spacer"></span>
-  <div fxShow="true" fxHide.lt-md="true">    
+<div style="background-image:url(../assets/recycling_background.jpg);background-size:cover;min-height:100vh;height:auto;background-position:center;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success ">
+      <a class="navbar-brand" href="#">Dapp. Master-Ethereum. Recycling DAO</a>
+      <div class="input-group navbar-nav mr-auto ml-4" >
+        <div class="input-group-prepend">
+          <span class="input-group-text">Account</span>
+        </div>
+        <select class="form-control mr-2" autofocus [(ngModel)]="web3Service.default_account.account" [ngModelOptions]="{standalone: true}" >
+          <option *ngFor="let account of web3Service.accounts" >{{account}}</option> 
+        </select> 
+        <div class="input-group-prepend">
+          <span class="input-group-text">Proveedor</span>
+        </div>
+        <select class="form-control" style="max-width: 10rem;" [(ngModel)]="web3Service.provider" (change)="updateProvider()">           
+          <option >Metamask</option> 
+          <option >URL</option> 
+        </select>
+        <input *ngIf="web3Service.provider=='URL'" type="text" class="form-control" [(ngModel)]="web3Service.provider_url" > 
 
-    <a routerLink="/meta" mat-button>Meta</a>
-    <a routerLink="/rcc" mat-button>Rcc</a>
-    <a routerLink="/rccDaoB" mat-button>RccDaoB</a>
-    <a routerLink="/rccDao" mat-button>RccDao</a>
+      </div> 
+      
+    </nav>
+  <router-outlet></router-outlet>  
+</div>
 
-  </div>
 
-</mat-toolbar>
-<router-outlet></router-outlet>
 

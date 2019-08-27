@@ -1,5 +1,52 @@
 <div class="row col-md-12 mt-2"> 
-  <div class="card border-fujitsu w-100 ml-2 mt-4 mr-2" style="max-width: 100%;">
+
+  <p class="ml-2 mt-1 mb-1" style="font-size: 0.9rem">
+    La Aplicación Descentralizada tiene como objetivo gestionar una Criptomoneda asociada al Reciclado. El contrato asociado a la aplicación presenta una lista de organizaciones asociadas referenciadas por sus direcciones de Ethereum.
+  </p>
+  
+  <p class="ml-2 mt-1 mb-1" style="font-size: 0.9rem">
+    El alta de cada una de las Organizaciones Asociadas solo prodrá ser realziada por la dirección propietaria del contrato y podrá aplicar la cualidad de Minter a cualquiera de ellas de manera que estas podrán generar tantos tokens como sea necesario.
+  </p>
+  
+  <div class="card border-fujitsu w-100 ml-2 mt-2 mr-2" style="max-width: 100%;">
+    <span class="card-header-fujitsu bg-fujitsu">Associated List
+        <button class="btn btn-link text-white" (click)="addAssociated()" style = "float: right">Add</button>                  
+    </span>
+    <div class="card-body">  
+      <table class="table fujitsu-table">
+        <thead>
+        <tr>        
+          <th scope="col">Address</th>
+          <th scope="col">Balance</th>
+          <th scope="col">Name</th>
+          <th scope="col">Ref</th>
+          <th scope="col">Enabled</th>
+          <th scope="col">Minter</th>          
+          <th scope="col">Ask</th>          
+        </tr>
+        </thead>
+        <tbody>
+        <tr [class.active]="i == selectedRow" *ngFor="let associated of rccDaoService.associatedTable; index as i" (click)="select(i, associated)">                
+          <td style="vertical-align: middle;" class="text-link" (click)="rcc(associated.address, 'minter')">{{ associated.address }}</td>
+          <td style="vertical-align: middle;">{{ associated.balance }}</td>
+          <td style="vertical-align: middle;">{{ associated.name }}</td>
+          <td style="vertical-align: middle;">{{ associated.ref }}</td>
+          <td style="vertical-align: middle;">{{ associated.enabled }}</td>
+          <td style="vertical-align: middle;">{{ associated.minter }}</td>
+          <td>
+              <button class="btn btn-sm btn-outline-secondary btn-fujitsu" (click)="ask(associated.address)">Ask</button>      
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="ml-2 mt-4 mb-1" style="font-size: 0.9rem">
+    La cuenta seleccioanda de la Wallet del Equipo permitirá varias operaciones asociadas a la moneda de Reciclaje RCC (ReCycling Coin). Se permitirá: Envío de token RCC entre Cuentas (Send), Envío de token RCC entre Cuentas de la misma cartera (Send Wallet), Generar token RCC sobre un cuenta determianda (Mint), aprobar una petición de token (Approve).
+  </p>    
+ 
+  <div class="card border-fujitsu w-100 ml-2 mt-1 mr-2 mb-4" style="max-width: 100%;">
     <span class="card-header-fujitsu bg-fujitsu">RCC Management
     </span>    
     <div class="card-body" class="card-body-fujitsu">  
@@ -16,47 +63,21 @@
           <div class="input-group-prepend">
             <span class="input-group-text">Balance</span>
           </div>
-          <input type="text" class="form-control" placeholder="Amount" disabled [(ngModel)]="web3Service.default_account.balance" [ngModelOptions]="{standalone: true}">
+          <input type="text" class="form-control col-xs-1" placeholder="Amount" disabled [ngModel]="web3Service.default_account.balance" [ngModelOptions]="{standalone: true}">
+          <p class="ml-2 mr-2 mt-2" style="margin:0; font-weight: bold; vertical-align: middle">RCC</p>
         </div>              
-        <div class="btn-group ml-4" style = "float:right">
+        <div class="btn-group ml-4 mb-2 mt-2" style = "float:right">
           <button  class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="rcc('','send')">Send</button>        
           <button  class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="rcc('','send_internal')">Send (Wallet)</button>
           <button  class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="rcc('','minter')">Mint</button>
+          <button  class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="approve()">Approve</button>
         </div>
       </form>
     </div>    
   </div>
+
+  
 </div>
 
-<div class="row col-md-12"> 
-  <div class="card border-fujitsu w-100 ml-2 mt-2 mr-2" style="max-width: 100%;">
-    <span class="card-header-fujitsu bg-fujitsu">Associated List
-        <button class="btn btn-link text-white" (click)="addAssociated()" style = "float: right">Add</button>                  
-    </span>
-    <div class="card-body">  
-      <table class="table fujitsu-table">
-        <thead>
-        <tr>        
-          <th scope="col">Address</th>
-          <th scope="col">Balance</th>
-          <th scope="col">Name</th>
-          <th scope="col">Ref</th>
-          <th scope="col">Enabled</th>
-          <th scope="col">Minter</th>          
-        </tr>
-        </thead>
-        <tbody>
-        <tr [class.active]="i == selectedRow" *ngFor="let associated of rccDaoService.associatedTable; index as i" (click)="select(i, associated)">                
-          <td class="text-link" (click)="rcc(associated.address, 'minter')">{{ associated.address }}</td>
-          <td>{{ associated.balance }}</td>
-          <td>{{ associated.name }}</td>
-          <td>{{ associated.ref }}</td>
-          <td>{{ associated.enabled }}</td>
-          <td>{{ associated.minter }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+
 

@@ -3,28 +3,46 @@ pragma solidity ^0.5.1;
 import "./RCC.sol";
 
 contract RccDao {
-    
+        
+    event Ask(
+        uint indexed  id,
+        address indexed  ask_address,
+        address indexed  associatted_address,
+        uint amount,
+        string message
+    );
+
+    event Approve(
+        uint indexed  id,
+        address indexed  ask_address,
+        address indexed  associatted_address,
+        uint amount,
+        string message
+    );
+
     address owner;
     RCC rcc;
     
+    
     constructor(address rcc_address) public {
         owner = msg.sender;
-        rcc = RCC(rcc_address);        
+        rcc = RCC(rcc_address);             
     }
+
+    
     
     modifier onlyOwner {
         require(owner == msg.sender);
         _;
     }
     
-    struct Associated {
-        uint id;
+    struct Associated {        
         string name;
         bool enabled;
         string ref ;
         bool supply;
         bool minter;
-    }
+    }    
     
  
     // Cada Asociado tiene su dirección con la que opera sobre la DAO
@@ -33,15 +51,15 @@ contract RccDao {
     
     // Necesario para obtener la lista completa de asociados.
     address[] internal _associatedList;
-    
+        
+
     function newAssociated(address _address, string memory name, string memory ref, bool minter, bool supply) onlyOwner public {
     
         // Primero hay que comprobar que el assoiciado ya existe
         
         
         Associated storage associated = _associated[_address]; 
-        
-        associated.id = block.timestamp;
+                
         associated.name = name;
         associated.ref = ref;
         associated.minter = minter;
@@ -83,16 +101,25 @@ contract RccDao {
         return _associatedList;
     }
     
-    function getAssociated(address _address ) view public returns (uint id, string memory name, bool enabled, string memory ref, bool supply, bool minter) {
+    function getAssociated(address _address ) view public returns (string memory name, bool enabled, string memory ref, bool supply, bool minter) {
         require(!_associated[_address].enabled, "Associated is already disabled.");
-        return (_associated[_address].id, _associated[_address].name, _associated[_address].enabled, _associated[_address].ref, _associated[_address].supply, _associated[_address].minter);
+        return (_associated[_address].name, _associated[_address].enabled, _associated[_address].ref, _associated[_address].supply, _associated[_address].minter);
     }
     
     
-    function askSupply(address _address, uint amount) public returns (bool) {
+    function ask(uint id, address _address, uint amount, string memory message ) public returns (bool) {
+        emit Ask(id, msg.sender, _address, amount, message);
+        if (_associated[_address].minter){            
+            emit Ask(id, msg.sender, _address, amount, message);
+        }        
+    }
+
+    function approve(uint id, address _address, uint amount, string memory message ) public returns (bool) {
         if (_associated[_address].minter){
-            rcc.approve(msg.sender,amount);
-        }
+            rcc.approve(_address, amount);
+
+            emit Approve(id, msg.sender, _address, amount, message);
+        }        
     }
     
 }

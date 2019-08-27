@@ -2,10 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
-import { RccDaoService } from '../../util/rccDao.service';
-import { RccService } from '../../util/rcc.service';
-import { Web3Service } from '../../util/web3.service';
+import { RccDaoService } from '../../services/rccDao.service';
+import { RccService } from '../../services/rcc.service';
+import { Web3Service } from '../../services/web3.service';
 
 @Component({
   selector: 'app-rcc-review',
@@ -18,10 +19,13 @@ export class RccComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public rccService: RccService,
     public rccDaoService: RccDaoService,
+    private matSnackBar: MatSnackBar,
     private web3Service: Web3Service) { }    
       
   @Input() public rcc: any;
   @Input() public mode: string;
+
+  transaction_result: string
 
   rccForm: FormGroup;
 
@@ -32,9 +36,11 @@ export class RccComponent implements OnInit {
         address_wallet: new FormControl(''),
         address_associated: new FormControl(''),
         amount: new FormControl(''),
+        balance: new FormControl('')
       }
     )
     this.rccDaoService.getAssociatedList();
+    this.getBalance();
   }
  
   send(){    
@@ -42,10 +48,17 @@ export class RccComponent implements OnInit {
     .then(
       result => {                          
         if (result == "OK"){                                
-          this.activeModal.close('OK');
+          this.setStatus("Envío de RCC con éxito");
+          this.getBalance();
+        }
+        else{
+          this.setStatus("No se ha podido llevar a cabo el envío de RCC");
         }
       },
-      err => console.log(err)      
+      err => {
+        console.log(err)
+        this.setStatus("No se ha podido llevar a cabo el envío de RCC");
+      }
     )
   }  
 
@@ -54,12 +67,37 @@ export class RccComponent implements OnInit {
     .then(
       result => {                          
         if (result == "OK"){                                
-          this.activeModal.close('OK');
+          this.setStatus("Envío de RCC con éxito");
+          this.getBalance();
+        }
+        else{
+          this.setStatus("No se ha podido llevar a cabo el envío de RCC");
         }
       },
-      err => console.log(err)      
+      err => {
+        console.log(err)
+        this.setStatus("No se ha podido llevar a cabo el envío de RCC");
+      }
+
     )
   }  
+
+  getBalance(){    
+    this.rccService.getBalance(this.rcc.address)
+    .then(
+      result => {                          
+        this.rcc.balance = result;
+      },
+      err => {
+        console.log(err)
+        this.activeModal.close('KO');
+      }
+    )
+  }  
+
+  setStatus(status) {
+    this.matSnackBar.open(status, null, {duration: 3000});
+  }
 
   closeModal() {
     this.activeModal.close('KO');

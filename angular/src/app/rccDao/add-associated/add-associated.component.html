@@ -3,6 +3,9 @@
       <button type="button" class="close card-close-fujitsu"  [attr.aria-label]="'Close'" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>            
   </span>  
   <div class="card-body card-body-fujitsu">
+    <p class="ml-2 mt-1 mb-2" style="font-size: 0.9rem">
+      Al agregar un nuevo asociado se enviará la trasacción 'newAssociated() al contrato RccDao para añadir un nuevo registro al mapping _associated'
+    </p>
     <form class="form" [formGroup]="addAssociated" >          
       <div class="input-group mb-2">
         <div class="input-group-prepend">

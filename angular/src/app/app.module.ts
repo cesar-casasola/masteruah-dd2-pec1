@@ -4,20 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material';
-
-
-
 import { Routes, RouterModule } from '@angular/router';
-import { MetaSenderComponent } from './meta/meta-sender/meta-sender.component';
-import { RccComponent } from './meta/rcc/rcc.component';
-import { RccDaoBComponent } from './meta/rcc-dao/rcc-dao-b.component';
 
 import { RccDaoComponent } from './rccDao/rccDao/rccDao.component';
-
 import { RccDaoModule } from './rccDao/rccDao.module';
 
 import { AppComponent } from './app.component';
-import { MetaModule } from './meta/meta.module';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -25,15 +17,13 @@ import {
   MatCardModule,
   MatFormFieldModule,
   MatInputModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatSnackBarModule
 } from '@angular/material';
 
 const routes: Routes = [
-  { path: 'meta', component: MetaSenderComponent },
-  { path: 'rcc', component: RccComponent },
-  { path: 'rccDaoB', component: RccDaoBComponent },
   { path: 'rccDao', component: RccDaoComponent },
-  { path: '', redirectTo: '/meta', pathMatch: 'full' }
+  { path: '', redirectTo: '/rccDao', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -51,11 +41,11 @@ const routes: Routes = [
     MatToolbarModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule,
-    MetaModule,
+    HttpClientModule,    
     MatMenuModule,
     MatTableModule,
-    RccDaoModule  
+    RccDaoModule,
+    MatSnackBarModule  
   ],
   providers: [],
   bootstrap: [AppComponent]
