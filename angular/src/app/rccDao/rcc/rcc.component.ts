@@ -62,7 +62,7 @@ export class RccComponent implements OnInit {
     )
   }  
 
-  mint(){    
+  mint(){        
     this.rccService.mintRCC(this.rcc.address, this.rcc.amount)
     .then(
       result => {                          

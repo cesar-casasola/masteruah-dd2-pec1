@@ -10,7 +10,7 @@ import { RccDaoService } from './services/rccDao.service';
 })
 export class AppComponent {  
 
-  constructor(private web3Service: Web3Service, public rccDaoService: RccDaoService) { }    
+  constructor(public web3Service: Web3Service, public rccDaoService: RccDaoService) { }    
 
   async updateProvider(){
     this.web3Service.bootstrapWeb3();               

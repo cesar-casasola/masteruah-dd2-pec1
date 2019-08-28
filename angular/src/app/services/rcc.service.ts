@@ -46,7 +46,7 @@ export class RccService {
   }
 
   public async mintRCC(address:string, amount:number) {
-            
+                
     let result:string;
     console.log('Initiating transaction... (please wait)');
     try {      

@@ -7,8 +7,8 @@ const Web3 = require('web3');
 
 declare let window: any;
 
-const rccDao_truffle_contract = require('../../../../truffle/build/contracts/RccDao.json');
-const rcc_truffle_contract = require('../../../../truffle/build/contracts/RCC.json');
+const rccDao_truffle_contract = require('../../assets/contracts/RccDao.json');
+const rcc_truffle_contract = require('../../assets/contracts/RCC.json');
 
 @Injectable({
   // we declare that this service should be created
@@ -40,7 +40,7 @@ export class Web3Service {
 
   constructor() {
     window.addEventListener('load', (event) => {
-      this.bootstrapWeb3();
+      this.bootstrapWeb3();      
       this.getDeployedRccContract();
       this.getDeployedRccDaoContract();
     });
@@ -61,7 +61,7 @@ export class Web3Service {
     
     try{
       if(this.provider == "Metamask"){      
-        this.web3 = new Web3(window.web3.currentProvider);      
+        this.web3 = new Web3(window.web3.currentProvider);         
       }
       else if(this.provider == "URL"){
         Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
@@ -134,12 +134,12 @@ export class Web3Service {
   }
 
   public async getDeployedRccContract() {
-  
+      
     return this.getToContract(rcc_truffle_contract)
-      .then((RccAbstraction) => {
+      .then((RccAbstraction) => {  
         this.rcc_contract = RccAbstraction;
-        return this.rcc_contract.deployed().then(deployed => {
-          this.deployedRcc = deployed;
+        return this.rcc_contract.deployed().then(deployed => {          
+          this.deployedRcc = deployed;          
           console.log(deployed);            
           return                                      
         });

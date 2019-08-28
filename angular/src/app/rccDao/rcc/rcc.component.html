@@ -18,7 +18,7 @@
           <span class="input-group-text">Wallet Address</span>
         </div>
         <select class="form-control" formControlName="address_wallet" [(ngModel)]="rcc.address" (change)="getBalance()">           
-          <option *ngFor="let account of web3Service.accounts" >{{account}}</option> 
+          <option *ngFor="let account of web3Service.accounts" [ngValue]="account">{{account}}</option> 
         </select> 
       </div> 
       <div *ngIf="mode=='minter'" class="input-group mb-2">
@@ -26,7 +26,7 @@
           <span class="input-group-text">Associated Address</span>
         </div>
         <select class="form-control" formControlName="address_associated" [(ngModel)]="rcc.address" (change)="getBalance()">           
-          <option *ngFor="let account of rccDaoService.associatedList" >{{account}}</option> 
+          <option *ngFor="let account of rccDaoService.associatedList" [ngValue]="account" >{{account}}</option> 
         </select> 
       </div>      
       <div class="input-group mb-2" style="width:20rem">

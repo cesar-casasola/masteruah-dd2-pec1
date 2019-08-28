@@ -26,7 +26,7 @@ export class RccDaoComponent implements OnInit {
   
 
   constructor(public rccDaoService: RccDaoService, 
-    private web3Service: Web3Service,       
+    public web3Service: Web3Service,       
     public modalService: NgbModal,
     private matSnackBar: MatSnackBar) { }    
 

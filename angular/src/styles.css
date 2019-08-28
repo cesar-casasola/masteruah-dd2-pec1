@@ -57,12 +57,12 @@
 }
 
 .border-fujitsu {
-    border-color: #3a9442;
+    border-color: #eb4c37;
     border-width: 1px;
   }
 
 .bg-fujitsu-header {
-  background: rgb(71, 158, 54);  
+  background: rgb(96, 167, 100);
 }
 
 .btn-fujitsu{
@@ -95,7 +95,7 @@
 }
 
 .bg-fujitsu {
-    background-color: rgb(71, 158, 54);
+    background-color: rgb(96, 167, 100);
   }
 
 .text-fujitsu-card {
@@ -114,7 +114,7 @@
 }
 
 .card-border-fujitsu { 
-  border-color: rgb(71, 158, 54);
+  border-color: rgb(62, 146, 66);
 }
 
 .card-close-fujitsu { 

@@ -80,16 +80,19 @@ export class RccDaoService {
     console.log('Initiating transaction... (please wait)');
     try {  
       if (this.web3Service){
-        if (this.web3Service.deployedRccDao){          
-          const transaction = await this.web3Service.deployedRcc.activate.sendTransaction(this.web3Service.deployedRccDao.address, {from: this.web3Service.default_account.account});
-          if (!transaction) {        
-            console.log('Transaction failed!');
-            result = 'KO';
-          } else {       
-            console.log('Transaction complete!');          
-            result = 'OK';
+        if (this.web3Service.deployedRccDao){    
+          const activate = await this.web3Service.deployedRcc.isActivate.call();          
+          if (!activate){
+            const transaction = await this.web3Service.deployedRcc.activate.sendTransaction(this.web3Service.deployedRccDao.address, {from: this.web3Service.default_account.account});
+            if (!transaction) {        
+              console.log('Transaction failed!');
+              result = 'KO';
+            } else {       
+              console.log('Transaction complete!');          
+              result = 'OK';
+            }
+            return result;          
           }
-          return result;
         }
       }
 
@@ -106,7 +109,7 @@ export class RccDaoService {
     try {      
       if (this.web3Service){
         if (this.web3Service.deployedRccDao){
-          const transaction = await this.web3Service.deployedRccDao.newAssociated.sendTransaction(address, name, ref, true, true, {from: this.web3Service.default_account.account});
+          const transaction = await this.web3Service.deployedRccDao.newAssociated.sendTransaction(address, name, ref, true,  {from: this.web3Service.default_account.account});
           if (!transaction) {        
             console.log('Transaction failed!');
             result = 'KO';
@@ -180,11 +183,13 @@ export class RccDaoService {
   public async check(id: number, address: string) {           
     try {          
       if (this.web3Service){
-        if (this.web3Service.deployedRccDao){   
-          this.web3Service.deployedRcc.AddMinter({}, (err, ev) => {        
-            alert(JSON.stringify(ev))    
-          });                 
-          return "OK";      
+        if (this.web3Service.deployedRccDao){               
+
+          this.web3Service.deployedRccDao.Ask(
+          { fromBlock: 0, toBlock:'latest'}, function(error, event) {            
+            console.log("event triggered", error)
+            // Reload when a new vote is recorded            
+          });                      
         }
       }
 
