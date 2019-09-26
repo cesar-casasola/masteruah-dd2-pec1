@@ -75,9 +75,11 @@ contract RccDao {
         _associatedList.push(_address);
         
         // Se añade como Minter al nuevo asociado
+        
         if (minter){
             rcc.addMinter(_address);            
         }
+        
         
     }
     
@@ -116,9 +118,15 @@ contract RccDao {
     
     // Método de petición de una cantidad de moneda RCC. Solo podrá pedirse a las Cuentas Asociadas de tipo minter
     function ask(uint id, address _address, uint amount, string memory message ) public returns (bool) {        
+        //emit Ask(id, msg.sender, _address, amount, message);                
         if (_associated[_address].minter && _associated[_address].enabled){
             emit Ask(id, msg.sender, _address, amount, message);
+            return true;
         }
+        else{
+            return false;
+        }        
+
     }
 
     // Método para controlar si una petición de moneda RCC se ha llevado a cabo.

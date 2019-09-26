@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material';
 import { RccDaoService } from '../../services/rccDao.service';
 
 @Component({
-  selector: 'app-add-associated-review',
+  selector: 'app-add-associated',
   templateUrl: './add-associated.component.html',
   styleUrls: ['./add-associated.component.css']
 })
@@ -42,13 +42,13 @@ export class AddAssociatedComponent implements OnInit {
           this.setStatus("Se ha incluido un nuevo asociado");
         }
         else{
-          this.activeModal.close('OK');
+          this.activeModal.close('KO');
           this.setStatus("No se ha podido añadir un nuevo asociado");
         }
       },
       err => {
         console.log(err)      
-        this.activeModal.close('OK');
+        this.activeModal.close('KO');
         this.setStatus("No se ha podido añadir un nuevo asociado. Error: " + JSON.stringify(err));
       }
     )

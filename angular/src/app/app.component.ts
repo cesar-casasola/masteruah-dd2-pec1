@@ -14,8 +14,8 @@ export class AppComponent {
 
   async updateProvider(){
     this.web3Service.bootstrapWeb3();               
-    await this.web3Service.getDeployedRccContract();    
-    await this.web3Service.getDeployedRccDaoContract();
+    //await this.web3Service.getDeployedRccContract();    
+    //await this.web3Service.getDeployedRccDaoContract();
     await this.web3Service.refreshAccounts();
     await this.rccDaoService.getAssociatedTable();      
   }

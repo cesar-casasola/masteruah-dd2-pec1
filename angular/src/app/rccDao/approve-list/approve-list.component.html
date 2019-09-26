@@ -1,0 +1,29 @@
+<div class="card border-fujitsu w-100">
+  <span  class="card-header-fujitsu bg-fujitsu" >Approve
+      <button type="button" class="close card-close-fujitsu"  [attr.aria-label]="'Close'" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>            
+  </span>  
+  <div class="card border-fujitsu w-100 ml-2 mt-2 mr-2" style="max-width: 100%;">
+      <span class="card-header-fujitsu bg-fujitsu">Approve List          
+      </span>
+      <div class="card-body">  
+        <table class="table fujitsu-table">
+          <thead>
+          <tr>        
+            <th scope="col">Address</th>
+            <th scope="col">Id</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Message</th>            
+          </tr>
+          </thead>
+          <tbody>
+          <tr [class.active]="i == selectedRow" *ngFor="let approveElement of rccDaoService.approveList; index as i" (click)="select(i, approveElement)" (dblclick)="selectAddress(approveElement)">
+            <td style="vertical-align: middle;">{{ approveElement.address }}</td>
+            <td style="vertical-align: middle;">{{ approveElement.id }}</td>
+            <td style="vertical-align: middle;">{{ approveElement.amount }}</td>
+            <td style="vertical-align: middle;">{{ approveElement.message }}</td>                        
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div> 

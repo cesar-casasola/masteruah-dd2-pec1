@@ -7,46 +7,48 @@ import { MatSnackBar } from '@angular/material';
 import { RccDaoService } from '../../services/rccDao.service';
 
 @Component({
-  selector: 'app-ask',
-  templateUrl: './ask.component.html',
-  styleUrls: ['./ask.component.css']
+  selector: 'app-approve-list',
+  templateUrl: './approve-list.component.html',
+  styleUrls: ['./approve-list.component.css']
 })
-export class AskComponent implements OnInit {
+export class ApproveListComponent implements OnInit {
+
+  selectedRow: number;
+  approve_selected: any;
 
   constructor(public modalService: NgbModal, 
     public activeModal: NgbActiveModal,
     public rccDaoService: RccDaoService,
     private matSnackBar: MatSnackBar) { }    
       
-  @Input() public ask: any;
-  @Input() public mode: string;
-
-  
-
-  askForm: FormGroup;
+  @Input() public account: any;  
 
   ngOnInit() {  
-    this.askForm = new FormGroup(
-      {
-        address: new FormControl(''),
-        amount: new FormControl(''),
-        message: new FormControl(''),        
-      }
-    )
-  }
-
-  send(){        
-    this.rccDaoService.ask(this.ask.address, this.ask.amount, this.ask.message)
-    .then(      
-      result => {                     
-        if (result == "OK"){                                
-          this.activeModal.close('OK');
+    this.rccDaoService.check(this.account)
+    .then(
+      result => {                          
+        if (result == "OK"){                                          
           this.setStatus("Se ha realizado una petición de Token");
         }
       },
       err => console.log(err)      
     )
-  }  
+  } 
+
+  selectAddress(approveElement){
+    this.activeModal.close(approveElement);
+    this.setStatus("Se ha realizado una petición de Token");       
+  } 
+
+  select(index, approveElement) {                
+    if (this.selectedRow == index){
+      this.selectedRow = -1;      
+    }
+    else{
+      this.selectedRow = index;
+      this.approve_selected = approveElement;
+    }    
+  }
 
   closeModal() {
     this.activeModal.close('KO');

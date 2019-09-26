@@ -2422,85 +2422,6 @@
     "version": "0.5.8+commit.23d335f2.Emscripten.clang"
   },
   "networks": {
-    "4": {
-      "events": {
-        "0x6ae172837ea30b801fbfcdd4108aa1d5bf8ff775444fd70256b44e6bf3dfc3f6": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "name": "account",
-              "type": "address"
-            }
-          ],
-          "name": "MinterAdded",
-          "type": "event",
-          "signature": "0x6ae172837ea30b801fbfcdd4108aa1d5bf8ff775444fd70256b44e6bf3dfc3f6"
-        },
-        "0xe94479a9f7e1952cc78f2d6baab678adc1b772d936c6583def489e524cb66692": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "name": "account",
-              "type": "address"
-            }
-          ],
-          "name": "MinterRemoved",
-          "type": "event",
-          "signature": "0xe94479a9f7e1952cc78f2d6baab678adc1b772d936c6583def489e524cb66692"
-        },
-        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "name": "from",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "name": "to",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "name": "value",
-              "type": "uint256"
-            }
-          ],
-          "name": "Transfer",
-          "type": "event",
-          "signature": "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
-        },
-        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
-          "anonymous": false,
-          "inputs": [
-            {
-              "indexed": true,
-              "name": "owner",
-              "type": "address"
-            },
-            {
-              "indexed": true,
-              "name": "spender",
-              "type": "address"
-            },
-            {
-              "indexed": false,
-              "name": "value",
-              "type": "uint256"
-            }
-          ],
-          "name": "Approval",
-          "type": "event",
-          "signature": "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925"
-        }
-      },
-      "links": {},
-      "address": "0xE39c1eB26a4f75665A9a9880210294A1eDAfD78b",
-      "transactionHash": "0x0868bccd86851669b00aabb66a109653be6617453141a8845612f0a7593f333f"
-    },
     "5777": {
       "events": {
         "0x6ae172837ea30b801fbfcdd4108aa1d5bf8ff775444fd70256b44e6bf3dfc3f6": {
@@ -2577,12 +2498,12 @@
         }
       },
       "links": {},
-      "address": "0x7c06f2fdA6B121CE6f93FdD6D9312FCd5AAAA5aA",
-      "transactionHash": "0x48fe5d23a55c0ca82eff8b60f2e18c9c95d5fa266891a72ec8f39bdf0ea29379"
+      "address": "0xBEE61612Db0CFb64d4E6111c0f78Cc302B386062",
+      "transactionHash": "0xd23e290fe32aa316b59b2573c604bbd29936e7ca41071a2e8d780f8dd8ebd97e"
     }
   },
   "schemaVersion": "3.0.13",
-  "updatedAt": "2019-08-28T20:59:48.609Z",
+  "updatedAt": "2019-09-26T22:19:17.778Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

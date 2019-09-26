@@ -1,10 +1,11 @@
 module.exports = {
-    contracts_build_directory: "../angular/src/assets/contracts",
+    contracts_build_directory: "../angular/src/assets/contracts_ganache",
     networks: {
           ganache: {
               host: "localhost",
               port: 7545,
-              network_id: "5777",              
+              network_id: "5777", 
+              from: "0xb253e4fCe8122904072a7EcB464030A0C141D064",            
             }
           ,
           rinkeby: {

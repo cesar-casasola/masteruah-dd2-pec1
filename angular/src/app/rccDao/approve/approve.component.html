@@ -3,13 +3,19 @@
       <button type="button" class="close card-close-fujitsu"  [attr.aria-label]="'Close'" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>            
   </span>  
   <div class="card-body card-body-fujitsu">
-    <form class="form" [formGroup]="approveForm" >          
+    <form class="form" [formGroup]="approveForm" >                 
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Account</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Account" formControlName="account" readonly required [ngModel]="web3Service.default_account.account" >
+        <button  type="submit" class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="check()">Check</button>                
+      </div>
       <div class="input-group mb-2">
         <div class="input-group-prepend">
           <span class="input-group-text">Address</span>
         </div>
-        <input type="text" class="form-control" placeholder="Address" formControlName="address" required [(ngModel)]="approve.address" >
-        <button  type="submit" class="btn btn-mg btn-outline-secondary btn-fujitsu mr-1 pull-right" (click)="check()">Check</button>                
+        <input type="text" class="form-control" placeholder="Address" formControlName="address" required [(ngModel)]="approve.address" >        
       </div>
       <div class="input-group mb-2">
         <div class="input-group-prepend">

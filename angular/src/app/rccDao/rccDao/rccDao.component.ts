@@ -6,6 +6,7 @@ import { AskComponent } from '../ask/ask.component';
 import { ApproveComponent } from '../approve/approve.component';
 
 import { RccDaoService } from '../../services/rccDao.service';
+import { RccService } from '../../services/rcc.service';
 import { Web3Service } from '../../services/web3.service';
 import { MatSnackBar } from '@angular/material';
 
@@ -26,33 +27,36 @@ export class RccDaoComponent implements OnInit {
   
 
   constructor(public rccDaoService: RccDaoService, 
+    public rccService: RccService, 
     public web3Service: Web3Service,       
     public modalService: NgbModal,
     private matSnackBar: MatSnackBar) { }    
 
-  ngOnInit() {
+  ngOnInit() {    
       this.updateWeb3();      
   }  
 
-  async updateWeb3(){
+  async updateWeb3(){    
     if (!this.web3Service.ready){
       const delay = new Promise(resolve => setTimeout(resolve, 100));
       await delay;
       this.ngOnInit();
     }
-    else{
-      this.rccDaoService.getAssociatedTable(); 
-      this.web3Service.updateBalance();
-      this.rccDaoService.activate();
+    else{      
+      this.rccDaoService.init();      
+      this.rccService.init();      
+      this.rccDaoService.getAssociatedTable();
+      this.web3Service.updateBalance();            
+      this.rccService.activate(this.rccDaoService.getContractAddress());      
     }
   }
 
-  public addAssociated(){              
+  public addAssociated(){                  
     const modalRef = this.modalService.open(AddAssociatedComponent,{ size: 'lg', backdrop: 'static'});                 
     modalRef.componentInstance.mode = "add";    
     modalRef.componentInstance.associated = {};    
     modalRef.result.then((result) => {       
-      if (result == 'OK'){            
+      if (result == 'OK'){           
         this.rccDaoService.getAssociatedTable();
         this.selectedRow = -1;   
       }
@@ -65,9 +69,11 @@ export class RccDaoComponent implements OnInit {
     modalRef.componentInstance.mode = mode;   
     modalRef.componentInstance.rcc = {address:address, ammount:0};     
     modalRef.result.then((result) => {             
-      if (result == 'OK'){                               
+      if (result == 'OK'){  
+
       }
     }).catch((error) =>{      
+      
     });                      
   }
 
@@ -90,6 +96,19 @@ export class RccDaoComponent implements OnInit {
     }).catch((error) =>{      
     });                      
   }
+
+  public getBalance(address){     
+    this.rccService.getBalance(address)
+    .then(        
+      result => {                   
+        return result;
+      },
+      err => {
+        console.log(err)        
+      }
+    )
+  }
+
 
 
   select(index, associated) {                

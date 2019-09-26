@@ -9,7 +9,7 @@ import { RccService } from '../../services/rcc.service';
 import { Web3Service } from '../../services/web3.service';
 
 @Component({
-  selector: 'app-rcc-review',
+  selector: 'app-rcc',
   templateUrl: './rcc.component.html',
   styleUrls: ['./rcc.component.css']
 })
@@ -29,7 +29,7 @@ export class RccComponent implements OnInit {
 
   rccForm: FormGroup;
 
-  ngOnInit() {        
+  ngOnInit() {     
     this.rccForm = new FormGroup(
       {
         address: new FormControl(''),
@@ -47,7 +47,8 @@ export class RccComponent implements OnInit {
     this.rccService.sendRCC(this.rcc.address, this.rcc.amount)
     .then(
       result => {                          
-        if (result == "OK"){                                
+        if (result == "OK"){       
+          alert(JSON.stringify(result))                                 
           this.setStatus("Envío de RCC con éxito");
           this.getBalance();
         }
@@ -82,17 +83,20 @@ export class RccComponent implements OnInit {
     )
   }  
 
-  getBalance(){    
-    this.rccService.getBalance(this.rcc.address)
-    .then(
-      result => {                          
-        this.rcc.balance = result;
-      },
-      err => {
-        console.log(err)
-        this.activeModal.close('KO');
-      }
-    )
+  getBalance(){  
+    if (this.rcc.address){
+      this.rccService.getBalance(this.rcc.address)
+      .then(        
+        result => {                   
+          this.rcc.balance = result;
+        },
+        err => {
+          console.log(err)
+          this.activeModal.close('KO');
+        }
+      )
+    }
+    
   }  
 
   setStatus(status) {
