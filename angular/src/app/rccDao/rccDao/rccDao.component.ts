@@ -46,7 +46,7 @@ export class RccDaoComponent implements OnInit {
       this.rccDaoService.init();      
       this.rccService.init();      
       this.rccDaoService.getAssociatedTable();
-      this.web3Service.updateBalance();            
+      this.updateAccountBalance();
       this.rccService.activate(this.rccDaoService.getContractAddress());      
     }
   }
@@ -70,14 +70,15 @@ export class RccDaoComponent implements OnInit {
     modalRef.componentInstance.rcc = {address:address, ammount:0};     
     modalRef.result.then((result) => {             
       if (result == 'OK'){  
-
+        this.updateAccountBalance();
       }
     }).catch((error) =>{      
       
     });                      
   }
 
-  public ask(address:string){        
+  public ask(address:string){       
+          
     const modalRef = this.modalService.open(AskComponent,{ size: 'lg', backdrop: 'static'});
     modalRef.componentInstance.ask = {address:address, ammount:0, message:""};     
     modalRef.result.then((result) => {             
@@ -89,7 +90,7 @@ export class RccDaoComponent implements OnInit {
 
   public approve(){        
     const modalRef = this.modalService.open(ApproveComponent,{ size: 'lg', backdrop: 'static'});
-    modalRef.componentInstance.approve = {address:"", id:0, ammount:0, message:""};     
+    modalRef.componentInstance.ask = {address:"", id:0, ammount:0, message:""};     
     modalRef.result.then((result) => {             
       if (result == 'OK'){                               
       }
@@ -97,16 +98,19 @@ export class RccDaoComponent implements OnInit {
     });                      
   }
 
-  public getBalance(address){     
-    this.rccService.getBalance(address)
-    .then(        
-      result => {                   
-        return result;
-      },
-      err => {
-        console.log(err)        
-      }
-    )
+  public updateAccountBalance(){    
+    if (this.web3Service.ready){
+      this.rccService.getBalance(this.web3Service.default_account.account)
+      .then(                
+        result => { 
+          this.web3Service.default_account.balance = result;          
+        },
+        err => {
+          console.log(err)        
+        }
+      )
+    }
+    
   }
 
 

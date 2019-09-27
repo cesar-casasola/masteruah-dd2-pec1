@@ -6,7 +6,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text">Account</span>
         </div>
-        <select class="form-control mr-2" autofocus [(ngModel)]="web3Service.default_account.account" [ngModelOptions]="{standalone: true}" >
+        <select class="form-control mr-2" autofocus [(ngModel)]="web3Service.default_account.account" [ngModelOptions]="{standalone: true}" (change)="updateAccount()" >
           <option *ngFor="let account of web3Service.accounts" >{{account}}</option> 
         </select> 
         <div class="input-group-prepend">

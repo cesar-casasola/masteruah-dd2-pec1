@@ -3,10 +3,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { ApproveListComponent } from '../approve-list/approve-list.component';
+import { AskListComponent } from '../ask-list/ask-list.component';
 
 import { RccDaoService } from '../../services/rccDao.service';
 import { Web3Service } from '../../services/web3.service';
+import { Alert } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-approve',
@@ -21,7 +22,7 @@ export class ApproveComponent implements OnInit {
     private web3Service: Web3Service,
     private matSnackBar: MatSnackBar) { }    
       
-  @Input() public approve: any;
+  @Input() public ask: any;
   @Input() public mode: string;
 
   
@@ -40,8 +41,8 @@ export class ApproveComponent implements OnInit {
     )
   }
 
-  _approve(){        
-    this.rccDaoService.approve(this.approve.id, this.approve.address, this.approve.amount, this.approve.message)
+  public approve(){        
+    this.rccDaoService.approve(this.ask.id, this.ask.address, this.ask.amount, this.ask.message)
     .then(
       result => {                          
         if (result == "OK"){                                
@@ -54,14 +55,14 @@ export class ApproveComponent implements OnInit {
   }  
 
   public check(){        
-    const modalRef = this.modalService.open(ApproveListComponent,{ size: 'lg', backdrop: 'static'});
+    const modalRef = this.modalService.open(AskListComponent,{ size: 'lg', backdrop: 'static'});
     modalRef.componentInstance.account = this.web3Service.default_account.account;     
     modalRef.result.then((result) => {             
       if (result){         
-        this.approve.id = result.id;
-        this.approve.address = result.address;
-        this.approve.amount = result.amount;
-        this.approve.message = result.message;               
+        this.ask.id = result.id;
+        this.ask.address = result.address;
+        this.ask.amount = result.amount;
+        this.ask.message = result.message;                       
       }
     }).catch((error) =>{      
     });                      

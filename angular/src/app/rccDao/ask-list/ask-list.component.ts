@@ -7,14 +7,14 @@ import { MatSnackBar } from '@angular/material';
 import { RccDaoService } from '../../services/rccDao.service';
 
 @Component({
-  selector: 'app-approve-list',
-  templateUrl: './approve-list.component.html',
-  styleUrls: ['./approve-list.component.css']
+  selector: 'app-ask-list',
+  templateUrl: './ask-list.component.html',
+  styleUrls: ['./ask-list.component.css']
 })
-export class ApproveListComponent implements OnInit {
+export class AskListComponent implements OnInit {
 
   selectedRow: number;
-  approve_selected: any;
+  ask_selected: any;
 
   constructor(public modalService: NgbModal, 
     public activeModal: NgbActiveModal,
@@ -29,24 +29,24 @@ export class ApproveListComponent implements OnInit {
       result => {                          
         if (result == "OK"){                                          
           this.setStatus("Se ha realizado una petición de Token");
-        }
+        }        
       },
       err => console.log(err)      
     )
   } 
 
-  selectAddress(approveElement){
-    this.activeModal.close(approveElement);
+  selectAddress(askElement){
+    this.activeModal.close(askElement);
     this.setStatus("Se ha realizado una petición de Token");       
   } 
 
-  select(index, approveElement) {                
+  select(index, askElement) {                
     if (this.selectedRow == index){
       this.selectedRow = -1;      
     }
     else{
       this.selectedRow = index;
-      this.approve_selected = approveElement;
+      this.ask_selected = askElement;
     }    
   }
 

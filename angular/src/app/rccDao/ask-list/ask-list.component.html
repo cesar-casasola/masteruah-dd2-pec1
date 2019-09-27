@@ -16,11 +16,11 @@
           </tr>
           </thead>
           <tbody>
-          <tr [class.active]="i == selectedRow" *ngFor="let approveElement of rccDaoService.approveList; index as i" (click)="select(i, approveElement)" (dblclick)="selectAddress(approveElement)">
-            <td style="vertical-align: middle;">{{ approveElement.address }}</td>
-            <td style="vertical-align: middle;">{{ approveElement.id }}</td>
-            <td style="vertical-align: middle;">{{ approveElement.amount }}</td>
-            <td style="vertical-align: middle;">{{ approveElement.message }}</td>                        
+          <tr [class.active]="i == selectedRow" *ngFor="let askElement of rccDaoService.askList; index as i" (click)="select(i, askElement)" (dblclick)="selectAddress(askElement)">
+            <td style="vertical-align: middle;">{{ askElement.address }}</td>
+            <td style="vertical-align: middle;">{{ askElement.id }}</td>
+            <td style="vertical-align: middle;">{{ askElement.amount }}</td>
+            <td style="vertical-align: middle;">{{ askElement.message }}</td>                        
           </tr>
           </tbody>
         </table>

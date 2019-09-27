@@ -118,7 +118,7 @@ export class Web3Service {
           this.accountsObservable.next(accs);        
           this.accounts = accs;
           this.default_account.account= this.accounts[0];
-          this.updateBalance();
+          //this.updateBalance();
         }  
   
         this.ready = true;

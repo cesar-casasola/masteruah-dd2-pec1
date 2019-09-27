@@ -2498,12 +2498,12 @@
         }
       },
       "links": {},
-      "address": "0xBEE61612Db0CFb64d4E6111c0f78Cc302B386062",
-      "transactionHash": "0xd23e290fe32aa316b59b2573c604bbd29936e7ca41071a2e8d780f8dd8ebd97e"
+      "address": "0x9a1620858e6534b9F24C41e17E4dc0941BBC5A7D",
+      "transactionHash": "0x4c2069221f9bf8b48dc66bf2cdb639e1d962c41c30420c373e555b1117d7f75d"
     }
   },
   "schemaVersion": "3.0.13",
-  "updatedAt": "2019-09-26T22:19:17.778Z",
+  "updatedAt": "2019-09-27T16:22:25.454Z",
   "devdoc": {
     "methods": {
       "allowance(address,address)": {

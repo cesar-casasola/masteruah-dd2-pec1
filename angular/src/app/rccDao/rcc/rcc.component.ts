@@ -47,8 +47,7 @@ export class RccComponent implements OnInit {
     this.rccService.sendRCC(this.rcc.address, this.rcc.amount)
     .then(
       result => {                          
-        if (result == "OK"){       
-          alert(JSON.stringify(result))                                 
+        if (result == "OK"){                 
           this.setStatus("Envío de RCC con éxito");
           this.getBalance();
         }
@@ -69,6 +68,7 @@ export class RccComponent implements OnInit {
       result => {                          
         if (result == "OK"){                                
           this.setStatus("Envío de RCC con éxito");
+          this.rccDaoService.getAssociatedTable();
           this.getBalance();
         }
         else{

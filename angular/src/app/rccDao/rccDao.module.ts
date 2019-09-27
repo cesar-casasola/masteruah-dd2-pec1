@@ -9,7 +9,7 @@ import { AddAssociatedComponent } from './add-associated/add-associated.componen
 import { RccComponent } from './rcc/rcc.component';
 import { AskComponent } from './ask/ask.component';
 import { ApproveComponent } from './approve/approve.component';
-import { ApproveListComponent } from './approve-list/approve-list.component';
+import { AskListComponent } from './ask-list/ask-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { ApproveListComponent } from './approve-list/approve-list.component';
     RccComponent,
     AskComponent,
     ApproveComponent,
-    ApproveListComponent
+    AskListComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +32,7 @@ import { ApproveListComponent } from './approve-list/approve-list.component';
     RccComponent,
     AskComponent,
     ApproveComponent,
-    ApproveListComponent
+    AskListComponent
   ],
   exports: [
     RccDaoComponent
