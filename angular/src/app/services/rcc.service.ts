@@ -5,7 +5,7 @@ declare let require: any;
 import { Web3Service } from './web3.service';
 //import { ok } from 'assert';
 
-const rcc_truffle_contract_ganache = require('../../assets/contracts_ganache/RCC.json');
+const rcc_truffle_contract = require('../../assets/contracts/RCC.json');
 
 declare let window: any;
 
@@ -29,7 +29,7 @@ export class RccService {
 
   init(){
     if (this.web3Service.ready) {
-      this.contractRcc = this.web3Service.getContract(rcc_truffle_contract_ganache);
+      this.contractRcc = this.web3Service.getContract(rcc_truffle_contract);
     }
   }
 
@@ -142,7 +142,7 @@ export class RccService {
   
 
   public getContractAddress(){
-    return rcc_truffle_contract_ganache.networks["5777"].address;
+    return rcc_truffle_contract.networks[this.web3Service.networkId].address;
   }
 
   public async activate(rccDaoAddress) {   

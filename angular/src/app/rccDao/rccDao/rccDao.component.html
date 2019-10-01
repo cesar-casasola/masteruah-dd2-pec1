@@ -19,9 +19,9 @@
           <th scope="col">Address</th>
           <th scope="col">Balance</th>
           <th scope="col">Name</th>
-          <th scope="col">Ref</th>
-          <th scope="col">Enabled</th>
+          <th scope="col">Ref</th>          
           <th scope="col">Minter</th>          
+          <th scope="col">Enabled</th>
           <th scope="col">Ask</th>          
         </tr>
         </thead>
@@ -30,11 +30,13 @@
           <td style="vertical-align: middle;" class="text-link" (click)="rcc(associated.address, 'minter')">{{ associated.address }}</td>
           <td style="vertical-align: middle;">{{ associated.balance }}</td>
           <td style="vertical-align: middle;">{{ associated.name }}</td>
-          <td style="vertical-align: middle;">{{ associated.ref }}</td>
-          <td style="vertical-align: middle;">{{ associated.enable }}</td>
+          <td style="vertical-align: middle;">{{ associated.ref }}</td>          
           <td style="vertical-align: middle;">{{ associated.minter }}</td>
+          <td style="display: block;">
+            <span>{{associated.enable}} </span><button class="btn btn-sm btn-outline-secondary btn-fujitsu" (click)="enable(associated.address, associated.enable)">{{enableLabel(associated.enable)}}</button>      
+          </td>
           <td>
-              <button class="btn btn-sm btn-outline-secondary btn-fujitsu" (click)="ask(associated.address)">Ask</button>      
+            <button class="btn btn-sm btn-outline-secondary btn-fujitsu" (click)="ask(associated.address)">Ask</button>      
           </td>
         </tr>
         </tbody>

@@ -1,5 +1,5 @@
 module.exports = {
-    contracts_build_directory: "../angular/src/assets/contracts_ganache",
+    contracts_build_directory: "../angular/src/assets/contracts",
     networks: {
           ganache: {
               host: "localhost",

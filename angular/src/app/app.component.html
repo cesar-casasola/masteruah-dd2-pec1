@@ -10,6 +10,9 @@
           <option *ngFor="let account of web3Service.accounts" >{{account}}</option> 
         </select> 
         <div class="input-group-prepend">
+          <button class="btn btn-mg btn-secondary mr-2" (click)="pause()">{{textPause()}}</button>        
+        </div>
+        <div class="input-group-prepend">
           <span class="input-group-text">Proveedor</span>
         </div>
         <select class="form-control" style="max-width: 10rem;" [(ngModel)]="web3Service.provider" (change)="updateProvider()">           

@@ -1,22 +1,12 @@
 import { Injectable } from '@angular/core';
-import contract from 'truffle-contract';
 import { Subject} from 'rxjs';
-
-import { RccDaoService } from './rccDao.service';
-import { RccService } from './rcc.service';
 
 declare let require: any;
 const Web3 = require('web3');
 
-
 declare let window: any;
 
-const rccDao_truffle_contract_rinkeby = require('../../assets/contracts_rinkeby/RccDao.json');
-const rcc_truffle_contract_rinkeby = require('../../assets/contracts_rinkeby/RCC.json');
-
-//const rccDao_truffle_contract_ganache = require('../../assets/contracts_ganache/RccDao.json');
-//const rcc_truffle_contract_ganache = require('../../assets/contracts_ganache/RCC.json');
-const testRcc_truffle_contract_ganache = require('../../assets/contracts_ganache/TestRCC.json');
+const testRcc_truffle_contract = require('../../assets/contracts/TestRCC.json');
 
 @Injectable({
   // we declare that this service should be created
@@ -28,6 +18,8 @@ export class Web3Service {
   public web3: any;
   public accounts: string[];
   public ready = false;
+
+  public networkId = ""
 
   default_account = {
     amount: 0,    
@@ -43,31 +35,57 @@ export class Web3Service {
   constructor(        
   ) {
     window.addEventListener('load', (event) => {      
-      this.bootstrapWeb3();      
-      //this.getDeployedRccContract();
-      //this.getDeployedRccDaoContract();
+      this.bootstrapWeb3();            
     });
   }
 
   public bootstrapWeb3() {  
     this.web3 = null;
-    
+    this.accounts = null;
+
     this.default_account = {
       amount: 0,      
       balance: 0,
       account: ''
     };
     
-    try{                  
-      if(this.provider == "Metamask"){                      
-        this.web3 = new Web3(window.web3.currentProvider);   
+    try{              
+      
+      if(this.provider == "Metamask"){   
+        console.log('Web3 Detected: ' + window.web3.currentProvider)
+        //this.web3 = new Web3(window.web3.currentProvider);   
+
+        this.web3 = new Web3(window.ethereum);
+        window.ethereum.enable(); // get permission to access accounts
+
+
+
+        console.log("isMetaMask: " + this.web3.currentProvider.isMetaMask)
+        if (this.web3.currentProvider.isMetaMask){
+          if (typeof this.web3.eth.defaultAccount === 'undefined') {
+            console.log( "Your browser does not support Ethereum Ðapps");
+          }
+          else{
+            console.log("defaultAccount: " + JSON.stringify(this.web3.eth.defaultAccount))
+            console.log("window.web3.eth.defaultAccount: " + JSON.stringify(window.web3.eth.defaultAccount))
+          }          
+        }            
+        this.web3.eth.net.getId((id)=>{
+          console.log(id)
+        });
+        this.networkId = "4";        
         console.log(this.web3)        
       }
-      else if(this.provider == "URL"){
+      else if(this.provider == "URL"){        
         Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
-        this.web3 = new Web3(new Web3.providers.HttpProvider(this.provider_url));      
+        this.web3 = new Web3(new Web3.providers.HttpProvider(this.provider_url));              
+        this.web3.eth.net.getId((id)=>{
+          console.log(id)
+        });
+        this.networkId = "5777";        
+        console.log(this.web3)   
 
-        this.TestRccDao();
+        //this.TestRccDao();
       }
     }
     catch(err){
@@ -79,22 +97,12 @@ export class Web3Service {
   }
 
   public getContract(contract: any){    
-    var contract = new this.web3.eth.Contract(contract.abi, contract.networks["5777"].address,
-      {from: '0xb253e4fCe8122904072a7EcB464030A0C141D064', gasPrice: '20000000000'}
-    );   
-    return contract;      
-  }
-
-
-  public async getToContract(truffle_contract) {
-    if (!this.web3) {
-      const delay = new Promise(resolve => setTimeout(resolve, 100));
-      await delay;
-      return await this.getToContract(truffle_contract);
+    if (this.web3){
+      var contract = new this.web3.eth.Contract(contract.abi, contract.networks[this.networkId].address,        
+        {from: this.default_account.account, gasPrice: '20000000000'}
+      );   
+      return contract;      
     }
-    const contractAbstraction = contract(truffle_contract);
-    contractAbstraction.setProvider(this.web3.currentProvider);
-    return contractAbstraction;
   }
 
   public async refreshAccounts() {
@@ -104,7 +112,7 @@ export class Web3Service {
         if (err != null) {                    
           console.warn('There was an error fetching your accounts.');          
           return;
-        }
+        }        
           
         // Get the initial account balance so it can be displayed.
         if (accs.length === 0) {
@@ -142,69 +150,6 @@ export class Web3Service {
     }
   }
 
-  /*
-  async updateBalance() {
-       
-    console.log('Initiating transaction... (please wait)');
-    try {   
-      if (this.deployedRcc){
-        const rccBalance = await this.deployedRcc.balanceOf.call(this.default_account.account);
-        console.log('Found balance: ' + rccBalance);
-        this.default_account.balance = rccBalance;   
-      }               
-    } catch (e) {
-      console.log(e);      
-    }
-  }
-  */
-
-  /*  
-  public async getDeployedRccContract() {
-    
-    let rcc_truffle_contract: any;
-    if(this.provider == "Metamask")
-      rcc_truffle_contract =  rcc_truffle_contract_rinkeby;
-
-    if(this.provider == "URL")
-      rcc_truffle_contract =  rcc_truffle_contract_ganache;
-
-    return this.getToContract(rcc_truffle_contract)
-      .then((RccAbstraction) => {  
-        this.rcc_contract = RccAbstraction;
-        return this.rcc_contract.deployed().then(deployed => {          
-          this.deployedRcc = deployed;          
-          console.log(deployed);            
-          return                                      
-        });
-      }); 
-  }    
-  */
-
-/*
-  public getRccContract() {
-    
-
-
-    let rcc_truffle_contract: any;
-    if(this.provider == "Metamask")
-      rcc_truffle_contract =  rcc_truffle_contract_rinkeby;
-
-    if(this.provider == "URL")
-      rcc_truffle_contract =  rcc_truffle_contract_ganache;
-
-    return this.getToContract(rcc_truffle_contract)
-      .then((RccAbstraction) => {  
-        this.rcc_contract = RccAbstraction;
-        return this.rcc_contract.deployed().then(deployed => {          
-          this.deployedRcc = deployed;          
-          console.log(deployed);            
-          return                                      
-        });
-      }); 
-  }  
-
-  */
-
   public async getBalance(address:string){
     return this.web3.eth.getBalance(address).then((balance) => {
       console.log('Balance: ' + balance);
@@ -212,49 +157,21 @@ export class Web3Service {
     });
   }
    
-  /*
-  public async getDeployedRccDaoContract() {  
-
-    let rccDao_truffle_contract: any;
-    if(this.provider == "Metamask")
-      rccDao_truffle_contract =  rccDao_truffle_contract_rinkeby;
-
-    if(this.provider == "URL")
-      rccDao_truffle_contract =  rccDao_truffle_contract_ganache;
-
-
-    return this.getToContract(rccDao_truffle_contract)
-      .then((RccDaoAbstraction) => {
-        this.rccDao_contract = RccDaoAbstraction;
-        return this.rccDao_contract.deployed().then(deployed => {
-          this.deployedRccDao = deployed;          
-          console.log(deployed);           
-          return     
-        });
-      }); 
-    }    
-    */
-    
+      
     public TestRccDao(){      
       console.log("Contrato:")
-      console.log("ABI: "  + JSON.stringify(testRcc_truffle_contract_ganache.abi))
+      console.log("ABI: "  + JSON.stringify(testRcc_truffle_contract.abi))
 
-      let address = JSON.stringify(testRcc_truffle_contract_ganache.networks["5777"].address);
+      let address = JSON.stringify(testRcc_truffle_contract.networks[this.networkId].address);
       console.log("Contract Address: "  + address);
 
-      var contractTestRcc = new this.web3.eth.Contract(testRcc_truffle_contract_ganache.abi, testRcc_truffle_contract_ganache.networks["5777"].address,
+      var contractTestRcc = new this.web3.eth.Contract(testRcc_truffle_contract.abi, testRcc_truffle_contract.networks[this.networkId].address,
         {from: '0xb253e4fCe8122904072a7EcB464030A0C141D064', gasPrice: '20000000000'}
       );            
       this.web3.eth.getBalance('0xb253e4fCe8122904072a7EcB464030A0C141D064').then((balance) => {console.log("balance: " + balance)});
 
       console.log("Methods: " + JSON.stringify(contractTestRcc.methods))
-      /*
-      contractTestRcc.methods.newAssociated('0x6aC5b3686033A9367e0cc03D892747cc0b1F8181','pepe','pepe',true).send({from: '0xb253e4fCe8122904072a7EcB464030A0C141D064', gasPrice: '20000000000' })
-      .then(function(receipt){
-          console.log(receipt)
-      });
-      */
-      
+            
      contractTestRcc.methods.getOwner().call().then(function(receipt){console.log("Owner: " + receipt)});
      contractTestRcc.methods.ask(1, '0xb253e4fCe8122904072a7EcB464030A0C141D064', 200, "hola mariola").send({from: '0xb253e4fCe8122904072a7EcB464030A0C141D064', gasPrice: '20000000000' })
      .then(function(receipt){console.log("Return ask: " + JSON.stringify(receipt))})

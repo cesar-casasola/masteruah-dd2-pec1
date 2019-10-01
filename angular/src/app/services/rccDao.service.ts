@@ -7,7 +7,7 @@ import { RccService } from './rcc.service';
 
 //import { ok } from 'assert';
 
-const rccDao_truffle_contract_ganache = require('../../assets/contracts_ganache/RccDao.json');
+const rccDao_truffle_contract = require('../../assets/contracts/RccDao.json');
 
 declare let window: any;
 
@@ -17,6 +17,8 @@ declare let window: any;
   providedIn: 'root',
 })
 export class RccDaoService {
+
+  public _pause: boolean = false;
 
   public web3: any;
   
@@ -32,8 +34,22 @@ export class RccDaoService {
 
   public init(){
     if (this.web3Service.ready) {
-      this.contractRccDao = this.web3Service.getContract(rccDao_truffle_contract_ganache);      
+      this.contractRccDao = this.web3Service.getContract(rccDao_truffle_contract);      
+
+      setInterval(() => this.updatePaused(), 2000);
     }
+  }
+
+  updatePaused(){      
+    this.paused()
+    .then(
+      result => {              
+        this._pause = result;          
+      },
+      err => {
+        console.log(err)      
+      }
+    )
   }
 
   public async getAssociatedList() {
@@ -75,15 +91,12 @@ export class RccDaoService {
       }
       
     })
-
     
   }
-
   
   public async getAssociatedTable() {              
     try {      
-      console.log("getting Associated Table");
-      //this.associatedTable = new Array<any>();  
+      console.log("getting Associated Table");      
       this.associatedTable = new Array<any>();  
 
       this.getAssociatedList().then( () =>{            
@@ -102,7 +115,7 @@ export class RccDaoService {
   }
 
   public getContractAddress(){
-    return rccDao_truffle_contract_ganache.networks["5777"].address;
+    return rccDao_truffle_contract.networks[this.web3Service.networkId].address;
   }
 
   
@@ -127,6 +140,122 @@ export class RccDaoService {
       return 'KO';    
       
     }    
+           
+  }
+
+  public async enableAssociated(address) {  
+    
+    if (this.web3Service.ready){
+      console.log('sending enableAssociated transaction transaction... (please wait)');
+      try {      
+
+        return this.contractRccDao.methods.enableAssociated(address).send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
+          .then(function(receipt){
+            console.log("Transaction complete. Return: " + JSON.stringify(receipt))
+            return 'OK';
+            })
+          .catch(function(error){
+            console.log("Transaction failed. Error: " + error)
+            return 'KO';
+            });
+
+      } catch (e) {
+        console.log(e);    
+        return 'KO';            
+      }    
+    }
+           
+  }
+
+  public async disableAssociated(address) {  
+    
+    if (this.web3Service.ready){
+      console.log('sending enableAssociated transaction transaction... (please wait)');
+      try {      
+
+        return this.contractRccDao.methods.disableAssociated(address).send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
+          .then(function(receipt){
+            console.log("Transaction complete. Return: " + JSON.stringify(receipt))
+            return 'OK';
+            })
+          .catch(function(error){
+            console.log("Transaction failed. Error: " + error)
+            return 'KO';
+            });
+
+      } catch (e) {
+        console.log(e);    
+        return 'KO';    
+        
+      }    
+    }
+           
+  }
+
+
+  public async pause() {  
+        
+    if (this.web3Service.ready){
+      console.log('sending enableAssociated transaction transaction... (please wait)');
+      try {      
+
+        return this.contractRccDao.methods.pause().send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
+          .then(function(receipt){
+            console.log("Transaction complete. Return: " + JSON.stringify(receipt))
+
+            return 'OK';
+            })
+          .catch(function(error){
+            console.log("Transaction failed. Error: " + error)
+            return 'KO';
+            });
+
+      } catch (e) {
+        console.log(e);    
+        return 'KO';    
+        
+      }    
+    }
+           
+  }
+
+  public async paused() {      
+    if (this.web3Service.ready){
+      console.log('sending paused transaction ... (please wait)');
+      try {
+        return this.contractRccDao.methods.paused().call().then(function(receipt){                              
+          console.log("paused: " + receipt)          
+          return receipt;
+        });            
+      } catch (e) {
+        console.log(e);      
+      }
+    }
+           
+  }
+
+  public async unpause() {  
+    
+    if (this.web3Service.ready){
+      console.log('sending enableAssociated transaction transaction... (please wait)');
+      try {      
+
+        return this.contractRccDao.methods.unpause().send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
+          .then(function(receipt){
+            console.log("Transaction complete. Return: " + JSON.stringify(receipt))
+            return 'OK';
+            })
+          .catch(function(error){
+            console.log("Transaction failed. Error: " + error)
+            return 'KO';
+            });
+
+      } catch (e) {
+        console.log(e);    
+        return 'KO';    
+        
+      }    
+    }
            
   }
 

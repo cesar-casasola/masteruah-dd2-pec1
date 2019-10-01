@@ -47,8 +47,56 @@ export class RccDaoComponent implements OnInit {
       this.rccService.init();      
       this.rccDaoService.getAssociatedTable();
       this.updateAccountBalance();
-      this.rccService.activate(this.rccDaoService.getContractAddress());      
+      this.rccService.activate(this.rccDaoService.getContractAddress());            
     }
+  }
+
+  public enableLabel(enable){
+    if (enable) 
+      return "Disable";
+    else
+      return "Enable";    
+  }
+
+  enable(address, enable){
+    if (enable){
+      this.rccDaoService.disableAssociated(address)
+      .then(
+        result => {                          
+          if (result == "OK"){                                            
+            this.rccDaoService.getAssociatedTable();            
+          }
+          else{
+            this.setStatus("No se ha podido desactivae la dirección del Asociado");
+          }
+        },
+        err => {
+          console.log(err)
+          this.setStatus("No se ha podido desactivae la dirección del Asociado");
+        }
+
+      )
+    }
+
+    if (!enable){
+      this.rccDaoService.enableAssociated(address)
+      .then(
+        result => {                          
+          if (result == "OK"){                                            
+            this.rccDaoService.getAssociatedTable();            
+          }
+          else{
+            this.setStatus("No se ha podido activar la dirección del Asociado");
+          }
+        },
+        err => {
+          console.log(err)
+          this.setStatus("No se ha podido activar la dirección del Asociado");
+        }
+
+      )
+    }
+
   }
 
   public addAssociated(){                  

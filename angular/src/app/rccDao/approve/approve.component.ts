@@ -19,7 +19,7 @@ export class ApproveComponent implements OnInit {
   constructor(public modalService: NgbModal, 
     public activeModal: NgbActiveModal,
     public rccDaoService: RccDaoService,
-    private web3Service: Web3Service,
+    public web3Service: Web3Service,
     private matSnackBar: MatSnackBar) { }    
       
   @Input() public ask: any;
