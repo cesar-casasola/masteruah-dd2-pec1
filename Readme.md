@@ -1,10 +1,10 @@
 ## Dapp para la gestión de la Criptomoneda ERC20: RCC
 
-La Dapp busca gestionar por una parte una lista de Cuentas Asociadas que gestionan cantidades de un nuevo token RCC de tipo ERC20 y por otra la Dapp permite realizar algunas operaciones sobre una criptomoneda RCC. 
+La Dapp busca gestionar por una parte una lista de Cuentas Asociadas que distribuyen cantidades de un nuevo token RCC de tipo ERC20 y por otra la Dapp permite realizar algunas operaciones sobre una criptomoneda RCC. 
 
-Cualquier cuenta externa dentro de wallet de Metamask o cualquier otra como la gestionada por Ganache podrá realizar petición de criptomoneda a las cuentas asociadas a través de la DAPP. Las cuentas asociadas podrán aprobar o no esta petición.
+Cualquier cuenta externa a través de wallet de Metamask o cualquier otra cuenta externa asociada por ejemplo al nodo de Ganache, podrá realizar petición de criptomoneda a las cuentas asociadas a través de la DAPP. Las cuentas asociadas podrán aprobar o no esta petición.
 
-Desde la Dapp además se podrá llevar además cualquier gestión con la moneda RCC: Envío a otra cuenta, Generación de la criptomoneda RCC (Mint) y podrá aprobar una petición (siempre que se trate de una cuenta asociada)
+Desde la Dapp además se podrá llevar además cualquier gestión con la moneda RCC: Envío a una cuenta de Ethereum, envío entre cuentas de la misma wallet, Generación (Mint) de la criptomoneda RCC (siempre desde una cuenta asociada)y se podrá aprobar una petición de criptomoneda (siempre que se opere de una cuenta asociada)
 
 ------
 Se han desarrollado dos contratos en Solidity en los respectivos ficheros:
@@ -20,12 +20,14 @@ Los contratos se ubican en el directorio: truffle/contracts. Su compilación y m
 
 La aplicación se ha desarrollado bajo la plataforma Angular donde se almacena el código en la carpeta /angular. En /angular/dist se encuentra la versión compilada para abrir directamente como aplicación Web. En la carpeta de angular/assets/ se encuentran tres carpetas que almacena los ficheros resultado de la migración con Truffle:
 
-  `/angular/dist/assets/contracts_ganache`
+  `/angular/dist/assets/contracts_ganache`  
   `/angular/dist/assets/contracts_rinkeby`
   `/angular/dist/assets/contracts`
 
+Cuando compilamos y migramos por truffle el código solidity se va a generar en la carpeta `/angular/dist/assets/contracts`. Este código se deberá de copiar en la carpeta `/angular/dist/assets/contracts_ganache` o `/angular/dist/assets/contracts_rinkeby` dependiendo de la red que se haya seleccionado.
 
-Al ejecutar la aplicación solo se utiliza la carpeta /`angular/dist/assets/contracts`. Se deberá de copiar el contenido dependiendo del proveedor de blockchain que se utilice
+Se han mantenido las dos carpetas de ganache y rinkeby para poder realziar pruebas sobre la aplicación utilizando un selector que cambia de red, modificando así el proveedor de web3 y pudiendo llevar a cabo en paralelo cualquier operación.
+
 
 -----
 
@@ -74,7 +76,39 @@ Realizar una generación de token RCC mediante el método Mint (solo para cuenta
 - Cuando descarguemos de github todo el código del proyecto, la aplicación de ángular no tendrá la carpeta de node_modules. para ello tendremos que instalar a través del gestor de paquetes npm:
  `/angular/npm install`
 
-- Una vez que tengamos la aplicación instalada el siguiente paso es la contrucción de la aplicación Web, pero antes comprobamos que no hay problemas de compilación ejecutando el comando `ng serve` y comprobaremos si en el navegador podemos abrir la aplicación en la ruta localhost:4200
+- Antes de compilar el proyecto de angular debemos de realziar la compliación y migración de los contratos a través de truffle:
+
+`/master-rcc/truffle$ truffle compile && truffle migrate --network rinkeby --reset`
+`/master-rcc/truffle$ truffle compile && truffle migrate --network ganache --reset`
+
+para ello debemos haber configurado el fichero truffle.js para que apunte a la red que queremos probar y añadir las cuentas que vamos a utilziar como cuetas owner de los contratos.
+
+```
+module.exports = {
+    contracts_build_directory: "../angular/src/assets/contracts",
+    networks: {
+          ganache: {
+              host: "localhost",
+              port: 7545,
+              network_id: "5777", 
+              from: "0xb253e4fCe8122904072a7EcB464030A0C141D064",            
+            }
+          ,
+          rinkeby: {
+               host: "localhost", // Connect to geth on the specified
+               port: 8545,
+               from: "0xcf757ac9610b264aa967832c93a0e9ccc5f99d8e",
+               network_id: 4,
+               gas: 4612388, // Gas limit used for deploys      
+          }
+        }
+
+};
+
+```
+
+
+- Una vez que tengamos los contratos generados el siguiente paso es la contrucción de la aplicación Web, pero antes comprobamos que no hay problemas de compilación ejecutando el comando `ng serve` y comprobaremos si desde el navegador podemos abrir la aplicación en la ruta localhost:4200
  `/angular/ng serve`
 ` ** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **`
       
@@ -83,7 +117,5 @@ Realizar una generación de token RCC mediante el método Mint (solo para cuenta
   
 - la construcción de la aplicación web por ángular se ubica en el carpeta angular/dist.
 - 
--  (Por ejemplo descargar la extensión Web Server for Chrome y seleccionar el directorio angular/dist)
-- complilar y generar los contratos de la carpeta Truflle. Los ficheros json resultantes deberán de copiarse en la carpeta angular/dist/assets/contrats (sustituir los que aparecen en la propia carpeta). 
+- Por último, para poder abrir la aplicación web podemos utilizar cualquier servidor (Por ejemplo descargar la extensión Web Server for Chrome y seleccionar el directorio angular/dist)
 
-Una vez instalado se podrá seleccionar como proveedor web3 entre una dirección url o metamask.
