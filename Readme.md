@@ -37,40 +37,45 @@ La aplicación muestra el siguiente aspecto:
 
 ![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Inicio.png)
 
-Al inicio se ejecutará el método activate del contrato rcc para que el contrato rccDao sea de tipo Mint y se puedan generar las criptomonedas desde RccDao.
+Al inicio se ejecutará el método `activate` del contrato **rcc** para que el contrato **rccDao** sea de tipo **Mint** y se puedan generar las criptomonedas desde **rccDao**.
 `RCC: function activate(address _address) onlyOwner`
 
-Se pulsa ADD para añadir una cuenta a la lista de cuentas asociadas:
+Se pulsa **Add** para añadir una cuenta a la lista de cuentas asociadas:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Nuevo_asociado.png)]
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Nuevo_asociado.png)
 `RccDao: function newAssociated(address _address, string memory name, string memory ref, bool minter) onlyOwner whenNotPaused public`
 
-Todos los métodos de escritura en los dos contratos solo son ejecutados si no está en Pausa. Se ha añadido un contrato abstracto para heredar todas los métodos y modificadores.
+Todos los métodos de escritura en los dos contratos solo son ejecutados si no está en **Pausa**. Se ha añadido un contrato abstracto para heredar todas los métodos y modificadores. El estado pausa se puede aplciar desde el botón **Pause** en la parte de arriba de la aplicación.
 
-Una vez asociadas varias cuentas se mostrarán en la lista de Cuentas Asociadas para llevar a cabo peticiones de criptomoneda RCC pulsando el botón ASK. Esto permite una petición de criptomonedas a una cuenta asociada:
+Una vez asociada la cuenta se mostrará en la **lista de Cuentas Asociadas** y se podrán llevar a cabo peticiones de criptomoneda RCC pulsando el botón **ASK**. Esto permite una petición de criptomonedas a una cuenta asociada:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Nuevo_asociado_creado.png)]
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Nuevo_asociado_creado.png)
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Peticion_RCC.png)]
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Peticion_RCC.png)
 
-La petición la lleva a cabo una llamada al método ask() que genera un evento Ask
+La petición la lleva a cabo una llamada al método `ask()` que genera un evento **Ask**
 `RccDao: function ask(address _address, uint amount, string memory message ) public whenNotPaused returns (bool)`
 
-Cambiando a la cuenta asociada, esta podrá realizar una aprobación de la petición:
+Si cambiamos de cuenta por defecto a una de la Cuenta Asociada recien creada, esta podrá realizar una aprobación de la petición anterior:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Asociado_aprove.png)]
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Asociado_aprove.png)
 
-Se procede a comprobar (Check) todas las peticiones relaizadas a la Cuenta Asociada buscando coincidencias entre los Eventos de tipo Ask y los eventos de tipo Aprove, para mostrar solo las peticiones no aprobadas:
+Antes de aprobar la petición Se procede a comprobar todas las peticiones realizadas a la Cuenta Asociada buscando coincidencias entre los Eventos de tipo Ask y los eventos de tipo Aprove, para mostrar solo las peticiones no aprobadas:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Lista_de_peticiones.png)]
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Lista_de_peticiones.png)
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/seleccion_de_peticion.png)
+
 `RccDao: function approve(uint id, address _address, uint amount, string memory message ) public whenNotPaused returns (bool) `
 
+-----
+
 En la aplicación podemos llevar a cabo también operaciones de envío de Token:
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Envio_RCC.png)]
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Envio_RCC.png)
 
 Realizar una generación de token RCC mediante el método Mint (solo para cuentas asociadas):
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Asociado_mint.png)]
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Asociado_mint.png)
 
+-----
 
 ## Instalación.
 - Cuando descarguemos de github todo el código del proyecto, la aplicación de ángular no tendrá la carpeta de node_modules. para ello tendremos que instalar a través del gestor de paquetes npm:
@@ -118,4 +123,6 @@ module.exports = {
 - la construcción de la aplicación web por ángular se ubica en el carpeta angular/dist.
 - 
 - Por último, para poder abrir la aplicación web podemos utilizar cualquier servidor (Por ejemplo descargar la extensión Web Server for Chrome y seleccionar el directorio angular/dist)
+
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/chrome-server.png)
 
