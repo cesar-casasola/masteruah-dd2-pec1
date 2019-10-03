@@ -35,7 +35,7 @@ Se han mantenido las dos carpetas de ganache y rinkeby para poder realziar prueb
 
 La aplicación muestra el siguiente aspecto:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Inicio.png)]
+![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Inicio.png)
 
 Al inicio se ejecutará el método activate del contrato rcc para que el contrato rccDao sea de tipo Mint y se puedan generar las criptomonedas desde RccDao.
 `RCC: function activate(address _address) onlyOwner`
