@@ -5,8 +5,10 @@ declare let require: any;
 import { Web3Service } from './web3.service';
 //import { ok } from 'assert';
 
-const rcc_truffle_contract = require('../../assets/contracts/RCC.json');
+//const rcc_truffle_contract = require('../../assets/contracts/RCC.json');
 
+const rcc_truffle_ganache_contract = require('../../assets/contracts_ganache/RCC.json');
+const rcc_truffle_rinkeby_contract = require('../../assets/contracts_rinkeby/RCC.json');
 declare let window: any;
 
 
@@ -16,12 +18,7 @@ declare let window: any;
   providedIn: 'root',
 })
 export class RccService {
-  
-  /*
-  public associatedList: string[];
-  public associatedTable: Array<any>;
-  */
-
+    
   public contractRcc: any;
   
   constructor(private web3Service: Web3Service) {        
@@ -29,14 +26,28 @@ export class RccService {
 
   init(){
     if (this.web3Service.ready) {
-      this.contractRcc = this.web3Service.getContract(rcc_truffle_contract);
+      if (this.web3Service.provider == "URL"){
+        this.contractRcc = this.web3Service.getContract(rcc_truffle_ganache_contract);
+      }
+      if (this.web3Service.provider == "Metamask"){
+        this.contractRcc = this.web3Service.getContract(rcc_truffle_rinkeby_contract);
+      }
     }
+  }
+
+  public getContractAddress(){
+    if (this.web3Service.provider == "URL"){
+      return rcc_truffle_ganache_contract.networks[this.web3Service.networkId].address;
+    }
+    if (this.web3Service.provider == "Metamask"){
+      return rcc_truffle_rinkeby_contract.networks[this.web3Service.networkId].address;
+    }    
   }
 
 
   public async sendRCC(address:string, amount:number) {
     let result:string;
-    console.log('sending transaction transaction... (please wait)');
+    console.log('sending transfer transaction... (please wait)');
     try {      
 
       return this.contractRcc.methods.transfer(address, amount).send({from: this.web3Service.default_account.account, gasPrice: '20000000000' })
@@ -59,7 +70,7 @@ export class RccService {
 
   public async mintRCC(address:string, amount:number) {
     let result:string;
-    console.log('sending transaction transaction... (please wait)');
+    console.log('sending mint transaction... (please wait)');
     try {      
 
       return this.contractRcc.methods.mint(address, amount).send({from: this.web3Service.default_account.account, gasPrice: '20000000000' })
@@ -79,55 +90,7 @@ export class RccService {
     }    
   }
 
-  /*
-  public async sendRCC(address:string, amount:number) {
-    let result:string;
-    console.log('Initiating transaction... (please wait)');
-    try {      
-      const transaction = await this.web3Service.deployedRcc.transfer.sendTransaction(address, amount, {from: this.web3Service.default_account.account});      
-      if (!transaction) {        
-        console.log('Transaction failed!');        
-        result = 'KO';
-      } else {       
-        console.log('Transaction complete!');                  
-        result = 'OK';
-      }
-
-    } catch (e) {
-      console.log(e);    
-      result = 'KO';    
-      
-    }
-
-    return result;  
-  }
-  */
-
-  /*
-  public async mintRCC(address:string, amount:number) {
-                
-    let result:string;
-    console.log('Initiating transaction... (please wait)');
-    try {      
-      const transaction = await this.web3Service.deployedRcc.mint.sendTransaction(address, amount, {from: this.web3Service.default_account.account});
-      if (!transaction) {        
-        console.log('Transaction failed!');
-        result = 'KO';
-      } else {       
-        console.log('Transaction complete!');          
-        result = 'OK';
-      }
-
-    } catch (e) {
-      console.log(e);    
-      result = 'KO';          
-    }
-
-    return result;  
-  }
-  */
-
-  
+    
   async getBalance(address:string) {
        
     console.log('Initiating getBalance transaction... (please wait)');
@@ -139,38 +102,66 @@ export class RccService {
       console.log(e);      
     }
   }
-  
 
-  public getContractAddress(){
-    return rcc_truffle_contract.networks[this.web3Service.networkId].address;
+  activateRcc(address){
+    this.isActivate()
+      .then(
+        result => {                          
+          if (!result){   
+            this.activate(address);      
+            console.log("Se ha activado con éxito el contrato rcc");            
+          }
+          else{
+            console.log("El contrato rcc ya ha sido activada");
+          }
+        },
+        err => {
+          console.log(err)
+          console.log("Error activando el contrato rcc");
+        }
+
+      )
   }
+    
 
   public async activate(rccDaoAddress) {   
           
-  if (this.contractRcc){    
-    let result:string;
-    console.log('sending activate transaction... (please wait)');
-    try {      
+    if (this.contractRcc){    
+      let result:string;
+      console.log('sending activate transaction... (please wait)');
+      try {      
 
-      this.contractRcc.methods.activate(rccDaoAddress).send({from: this.web3Service.default_account.account, gasPrice: '20000000000' })
-      .then(function(receipt){
-        console.log("Transaction complete. Return: " + JSON.stringify(receipt))
-        result = 'OK';
-        })
-      .catch(function(error){
-        console.log("Transaction failed. Error: " + error)
-        result = 'KO';
-        });
+        this.contractRcc.methods.activate(rccDaoAddress).send({from: this.web3Service.default_account.account, gasPrice: '20000000000' })
+        .then(function(receipt){
+          console.log("Transaction complete. Return: " + JSON.stringify(receipt))
+          result = 'OK';
+          })
+        .catch(function(error){
+          console.log("Transaction failed. Error: " + error)
+          result = 'KO';
+          });
 
-      } catch (e) {
-        console.log(e);    
-        result = 'KO';    
-        
-      }
+        } catch (e) {
+          console.log(e);    
+          result = 'KO';    
+          
+        }
 
-      return result;
-  }
+        return result;
+    }
   
-}
+  }
+
+  async isActivate() {
+       
+    console.log('Initiating isActivate transaction... (please wait)');
+    try {      
+      const activate = await this.contractRcc.methods.isActivate().call();
+      console.log('Activate: ' + activate);
+      return activate;     
+    } catch (e) {
+      console.log(e);      
+    }
+  }
 
 }

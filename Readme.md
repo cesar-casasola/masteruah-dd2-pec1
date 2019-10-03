@@ -29,31 +29,46 @@ Al ejecutar la aplicación solo se utiliza la carpeta /`angular/dist/assets/cont
 
 -----
 
-El aspecto de la aplicación se muestra en la siguiente imagen:
+### Funcionalidad de la aplicación
+
+La aplicación muestra el siguiente aspecto:
 
 [![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Inicio.png)]
 
+Al inicio se ejecutará el método activate del contrato rcc para que el contrato rccDao sea de tipo Mint y se puedan generar las criptomonedas desde RccDao.
+`RCC: function activate(address _address) onlyOwner`
+
 Se pulsa ADD para añadir una cuenta a la lista de cuentas asociadas:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/new_associated.png)]
+[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Nuevo_asociado.png)]
+`RccDao: function newAssociated(address _address, string memory name, string memory ref, bool minter) onlyOwner whenNotPaused public`
 
-Una vez asociadas varias cuentas se mostrarán en la lista de Cuentas Asociadas para llevar a cabo peticiones de criptomoneda RCC pulsando el botón ASK
+Todos los métodos de escritura en los dos contratos solo son ejecutados si no está en Pausa. Se ha añadido un contrato abstracto para heredar todas los métodos y modificadores.
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/associated.png)]
+Una vez asociadas varias cuentas se mostrarán en la lista de Cuentas Asociadas para llevar a cabo peticiones de criptomoneda RCC pulsando el botón ASK. Esto permite una petición de criptomonedas a una cuenta asociada:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/ask.png)]
+[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Nuevo_asociado_creado.png)]
 
-Desde el apartado de RCC Management se podrán llevar a cavo Envíos de RCC
+[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Peticion_RCC.png)]
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/send.png)]
+La petición la lleva a cabo una llamada al método ask() que genera un evento Ask
+`RccDao: function ask(address _address, uint amount, string memory message ) public whenNotPaused returns (bool)`
 
-Generación de moneda RCC
+Cambiando a la cuenta asociada, esta podrá realizar una aprobación de la petición:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/mint.png)]
+[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Asociado_aprove.png)]
 
-Y llevar a cabo una aprobación de una petición de moneda
+Se procede a comprobar (Check) todas las peticiones relaizadas a la Cuenta Asociada buscando coincidencias entre los Eventos de tipo Ask y los eventos de tipo Aprove, para mostrar solo las peticiones no aprobadas:
 
-[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/aprove.png)]
+[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Lista_de_peticiones.png)]
+`RccDao: function approve(uint id, address _address, uint amount, string memory message ) public whenNotPaused returns (bool) `
+
+En la aplicación podemos llevar a cabo también operaciones de envío de Token:
+[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Envio_RCC.png)]
+
+Realizar una generación de token RCC mediante el método Mint (solo para cuentas asociadas):
+[![N|Solid](https://github.com/cesar-casasola/masteruah-dd2-pec1/blob/master/images/Asociado_mint.png)]
+
 
 ## Instalación.
 - Cuando descarguemos de github todo el código del proyecto, la aplicación de ángular no tendrá la carpeta de node_modules. para ello tendremos que instalar a través del gestor de paquetes npm:
@@ -64,7 +79,11 @@ Y llevar a cabo una aprobación de una petición de moneda
 ` ** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **`
       
 - Una vez comprobado que se ejecuta en el navegador cortamos el servicio que está ejecutando (Ctrl-C) y construimos la aplicación web mediante el comendo build:
-- la construcción de la aplicación web por ángular se ubica en el carpeta angular/dist sobre un directorio de servidor web para mostrar la aplicación. (Por ejemplo descargar la extensión Web Server for Chrome y seleccionar el directorio angular/dist)
+`angular/ng build --prod`
+  
+- la construcción de la aplicación web por ángular se ubica en el carpeta angular/dist.
+- 
+-  (Por ejemplo descargar la extensión Web Server for Chrome y seleccionar el directorio angular/dist)
 - complilar y generar los contratos de la carpeta Truflle. Los ficheros json resultantes deberán de copiarse en la carpeta angular/dist/assets/contrats (sustituir los que aparecen en la propia carpeta). 
 
 Una vez instalado se podrá seleccionar como proveedor web3 entre una dirección url o metamask.

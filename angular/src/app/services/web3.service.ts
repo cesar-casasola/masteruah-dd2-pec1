@@ -18,6 +18,7 @@ export class Web3Service {
   public web3: any;
   public accounts: string[];
   public ready = false;
+  public bootstrap = false;
 
   public networkId = ""
 
@@ -27,7 +28,7 @@ export class Web3Service {
     account: ''
   };
 
-  public provider = "URL"
+  public provider = "Metamask"
   public provider_url = "http://localhost:7545"
 
   public accountsObservable = new Subject<string[]>();
@@ -39,7 +40,8 @@ export class Web3Service {
     });
   }
 
-  public bootstrapWeb3() {  
+  public bootstrapWeb3() {    
+    this.ready = false;  
     this.web3 = null;
     this.accounts = null;
 
@@ -49,7 +51,8 @@ export class Web3Service {
       account: ''
     };
     
-    try{              
+    try{      
+            
       
       if(this.provider == "Metamask"){   
         console.log('Web3 Detected: ' + window.web3.currentProvider)
@@ -57,8 +60,6 @@ export class Web3Service {
 
         this.web3 = new Web3(window.ethereum);
         window.ethereum.enable(); // get permission to access accounts
-
-
 
         console.log("isMetaMask: " + this.web3.currentProvider.isMetaMask)
         if (this.web3.currentProvider.isMetaMask){
@@ -74,7 +75,7 @@ export class Web3Service {
           console.log(id)
         });
         this.networkId = "4";        
-        console.log(this.web3)        
+        console.log(this.web3)             
       }
       else if(this.provider == "URL"){        
         Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
@@ -83,7 +84,7 @@ export class Web3Service {
           console.log(id)
         });
         this.networkId = "5777";        
-        console.log(this.web3)   
+        console.log(this.web3)         
 
         //this.TestRccDao();
       }

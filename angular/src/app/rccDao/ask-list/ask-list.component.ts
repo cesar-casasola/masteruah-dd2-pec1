@@ -28,7 +28,7 @@ export class AskListComponent implements OnInit {
     .then(
       result => {                          
         if (result == "OK"){                                          
-          this.setStatus("Se ha realizado una petición de Token");
+          this.setStatus("Se ha realizado una comprobación de petición de Token");
         }        
       },
       err => console.log(err)      
@@ -36,8 +36,7 @@ export class AskListComponent implements OnInit {
   } 
 
   selectAddress(askElement){
-    this.activeModal.close(askElement);
-    this.setStatus("Se ha realizado una petición de Token");       
+    this.activeModal.close(askElement);    
   } 
 
   select(index, askElement) {                

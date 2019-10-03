@@ -3,8 +3,11 @@
       <button type="button" class="close card-close-fujitsu"  [attr.aria-label]="'Close'" (click)="closeModal()"><span aria-hidden="true">&times;</span></button>            
   </span>  
   <div class="card-body card-body-fujitsu">
-    <p class="ml-2 mt-1 mb-1" style="font-size: 0.9rem">
-      La criptomoneda RCC podrá enviarse a otras cuentas o a cuentas entre la wallet que proporciona el proveedor
+    <p *ngIf="mode=='send' || mode=='send_internal'" class="ml-2 mt-1 mb-1" style="font-size: 0.9rem">
+      La criptomoneda RCC podrá enviarse a cualquier dirección Ethereum o realizar un envío entre cuentas de la misma wallet
+    </p>
+    <p *ngIf="mode=='minter'" class="ml-2 mt-1 mb-1" style="font-size: 0.9rem">
+      Una cuenta asociada podrá generar la cantidad de criptomoneda RCC que sea necesaria
     </p>
     <form class="form" [formGroup]="rccForm" >          
       <div *ngIf="mode=='send'" class="input-group mb-2">

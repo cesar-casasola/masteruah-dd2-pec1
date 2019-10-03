@@ -45,9 +45,9 @@ export class RccDaoComponent implements OnInit {
     else{      
       this.rccDaoService.init();      
       this.rccService.init();      
+      this.rccService.activateRcc(this.rccDaoService.getContractAddress())
       this.rccDaoService.getAssociatedTable();
-      this.updateAccountBalance();
-      this.rccService.activate(this.rccDaoService.getContractAddress());            
+      this.updateAccountBalance();            
     }
   }
 
@@ -57,22 +57,23 @@ export class RccDaoComponent implements OnInit {
     else
       return "Enable";    
   }
-
+  
   enable(address, enable){
     if (enable){
       this.rccDaoService.disableAssociated(address)
       .then(
         result => {                          
-          if (result == "OK"){                                            
+          if (result == "OK"){   
+            this.setStatus("Se ha desactivado con Exito la cuenta del Asociado");                                         
             this.rccDaoService.getAssociatedTable();            
           }
           else{
-            this.setStatus("No se ha podido desactivae la dirección del Asociado");
+            this.setStatus("No se ha podido desactivar la cuenta del Asociado");
           }
         },
         err => {
           console.log(err)
-          this.setStatus("No se ha podido desactivae la dirección del Asociado");
+          this.setStatus("No se ha podido desactivar la cuenta del Asociado");
         }
 
       )
@@ -82,16 +83,17 @@ export class RccDaoComponent implements OnInit {
       this.rccDaoService.enableAssociated(address)
       .then(
         result => {                          
-          if (result == "OK"){                                            
+          if (result == "OK"){ 
+            this.setStatus("Se ha sactivado con Exito la cuenta del Asociado"); 
             this.rccDaoService.getAssociatedTable();            
           }
           else{
-            this.setStatus("No se ha podido activar la dirección del Asociado");
+            this.setStatus("No se ha podido activar la cuenta del Asociado");
           }
         },
         err => {
           console.log(err)
-          this.setStatus("No se ha podido activar la dirección del Asociado");
+          this.setStatus("No se ha podido activar la cuenta del Asociado");
         }
 
       )

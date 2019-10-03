@@ -41,10 +41,13 @@ export class AskComponent implements OnInit {
       result => {                     
         if (result == "OK"){                                
           this.activeModal.close('OK');
-          this.setStatus("Se ha realizado una petición de Token");
+          this.setStatus("Se ha realizado una petición de RCC");
         }
       },
-      err => console.log(err)      
+      err => {
+        this.setStatus("No se ha podido realizar la petición de RCC");
+        console.log(err)      
+      }
     )
   }  
 

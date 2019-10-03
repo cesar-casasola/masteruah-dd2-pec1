@@ -47,10 +47,13 @@ export class ApproveComponent implements OnInit {
       result => {                          
         if (result == "OK"){                                
           this.activeModal.close('OK');
-          this.setStatus("Se ha realizado una petición de Token");
+          this.setStatus("Se ha aprobado la petición de RCC");
         }
       },
-      err => console.log(err)      
+      err => {
+        this.setStatus("Error. Se ha podido aprobar la petición de RCC");
+        console.log(err)      
+      }
     )
   }  
 

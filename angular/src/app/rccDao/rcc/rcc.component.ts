@@ -67,17 +67,17 @@ export class RccComponent implements OnInit {
     .then(
       result => {                          
         if (result == "OK"){                                
-          this.setStatus("Envío de RCC con éxito");
+          this.setStatus("Generación de RCC con éxito");
           this.rccDaoService.getAssociatedTable();
           this.getBalance();
         }
         else{
-          this.setStatus("No se ha podido llevar a cabo el envío de RCC");
+          this.setStatus("No se ha podido llevar a cabo la generación de RCC");
         }
       },
       err => {
         console.log(err)
-        this.setStatus("No se ha podido llevar a cabo el envío de RCC");
+        this.setStatus("No se ha podido llevar a cabo la generación de RCC");
       }
 
     )

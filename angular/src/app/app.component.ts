@@ -20,8 +20,13 @@ export class AppComponent implements OnInit {
 
   async updateProvider(){
     this.web3Service.bootstrapWeb3();                   
-    await this.web3Service.refreshAccounts();    
-    await this.rccDaoService.getAssociatedTable();          
+    await this.web3Service.refreshAccounts();   
+    if (this.web3Service.ready){       
+      this.rccDaoService.init();    
+      this.rccService.init();   
+      this.rccService.activateRcc(this.rccDaoService.getContractAddress())
+      await this.rccDaoService.getAssociatedTable();          
+    }
     
  }
 

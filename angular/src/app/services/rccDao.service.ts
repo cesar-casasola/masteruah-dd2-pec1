@@ -5,9 +5,10 @@ declare let require: any;
 import { Web3Service } from './web3.service';
 import { RccService } from './rcc.service';
 
-//import { ok } from 'assert';
 
-const rccDao_truffle_contract = require('../../assets/contracts/RccDao.json');
+
+const rccDao_truffle_ganache_contract = require('../../assets/contracts_ganache/RccDao.json');
+const rccDao_truffle_rinkeby_contract = require('../../assets/contracts_rinkeby/RccDao.json');
 
 declare let window: any;
 
@@ -33,10 +34,23 @@ export class RccDaoService {
   }
 
   public init(){
-    if (this.web3Service.ready) {
-      this.contractRccDao = this.web3Service.getContract(rccDao_truffle_contract);      
 
-      setInterval(() => this.updatePaused(), 2000);
+    if (this.web3Service.ready) {
+      if (this.web3Service.provider == "URL"){
+        this.contractRccDao = this.web3Service.getContract(rccDao_truffle_ganache_contract);
+      }
+      if (this.web3Service.provider == "Metamask"){
+        this.contractRccDao = this.web3Service.getContract(rccDao_truffle_rinkeby_contract);
+      }
+    }    
+  }
+
+  public getContractAddress(){
+    if (this.web3Service.provider == "URL"){
+      return rccDao_truffle_ganache_contract.networks[this.web3Service.networkId].address;
+    }
+    if (this.web3Service.provider == "Metamask"){
+      return rccDao_truffle_rinkeby_contract.networks[this.web3Service.networkId].address;
     }
   }
 
@@ -52,10 +66,10 @@ export class RccDaoService {
     )
   }
 
-  public async getAssociatedList() {
+  public async getAssociatedList() {    
     if (this.contractRccDao){    
       this.associatedList = new Array<any>();
-      console.log('Sending getAssociatedList transaction... (please wait)');
+      console.log('Sending getAssociatedList call... (please wait)');
       try {
         this.associatedList = await this.contractRccDao.methods.getAssociatedList().call().then(function(receipt){                    
           console.log("associatedList: " + receipt)          
@@ -74,7 +88,9 @@ export class RccDaoService {
     return this.rccService.getBalance(address).then((balance) => {
       if (this.contractRccDao){
         try {     
+          console.log('Sending getAssociated call... (please wait)');
           return this.contractRccDao.methods.getAssociated(address).call().then(function(receipt){
+            console.log("getAssociated: " + receipt)    
             associated = receipt;       
             console.log(associated);        
             associated.address = address;
@@ -99,6 +115,8 @@ export class RccDaoService {
       console.log("getting Associated Table");      
       this.associatedTable = new Array<any>();  
 
+      console.log("------getAssociatedTable. contractRccDao:  " + this.contractRccDao._address)    
+      console.log("------getAssociatedTable. contractAddress:  " + this.getContractAddress())    
       this.getAssociatedList().then( () =>{            
         this.associatedList.forEach(associated_address => {          
             this.getAssociated(associated_address).then((associated) =>
@@ -112,17 +130,12 @@ export class RccDaoService {
     } catch (e) {
       console.log(e);      
     }    
-  }
-
-  public getContractAddress(){
-    return rccDao_truffle_contract.networks[this.web3Service.networkId].address;
-  }
-
+  }  
   
   public async newAssociated(address, name, ref) {  
     
     let result:string;
-    console.log('sending newAssociated transaction transaction... (please wait)');
+    console.log('sending newAssociated transaction... (please wait)');
     try {      
 
       return this.contractRccDao.methods.newAssociated(address, name, ref, true).send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
@@ -146,7 +159,7 @@ export class RccDaoService {
   public async enableAssociated(address) {  
     
     if (this.web3Service.ready){
-      console.log('sending enableAssociated transaction transaction... (please wait)');
+      console.log('sending enableAssociated transaction... (please wait)');
       try {      
 
         return this.contractRccDao.methods.enableAssociated(address).send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
@@ -170,7 +183,7 @@ export class RccDaoService {
   public async disableAssociated(address) {  
     
     if (this.web3Service.ready){
-      console.log('sending enableAssociated transaction transaction... (please wait)');
+      console.log('sending disableAssociated transaction... (please wait)');
       try {      
 
         return this.contractRccDao.methods.disableAssociated(address).send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
@@ -196,7 +209,7 @@ export class RccDaoService {
   public async pause() {  
         
     if (this.web3Service.ready){
-      console.log('sending enableAssociated transaction transaction... (please wait)');
+      console.log('sending pause transaction... (please wait)');
       try {      
 
         return this.contractRccDao.methods.pause().send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
@@ -221,7 +234,7 @@ export class RccDaoService {
 
   public async paused() {      
     if (this.web3Service.ready){
-      console.log('sending paused transaction ... (please wait)');
+      console.log('sending paused call... (please wait)');
       try {
         return this.contractRccDao.methods.paused().call().then(function(receipt){                              
           console.log("paused: " + receipt)          
@@ -237,7 +250,7 @@ export class RccDaoService {
   public async unpause() {  
     
     if (this.web3Service.ready){
-      console.log('sending enableAssociated transaction transaction... (please wait)');
+      console.log('sending unpause transaction... (please wait)');
       try {      
 
         return this.contractRccDao.methods.unpause().send({from: this.web3Service.default_account.account, gas:'1200000', gasPrice: '20000000000' })
@@ -263,7 +276,7 @@ export class RccDaoService {
   public async ask(address: string, amount: number, message: string) {   
 
     let result:string;
-    console.log('sending ask transaction transaction... (please wait)');
+    console.log('sending ask transaction... (please wait)');
     try {      
 
       return this.contractRccDao.methods.ask(address, amount, message).send({from: this.web3Service.default_account.account, gasPrice: '20000000000' })
@@ -286,7 +299,7 @@ export class RccDaoService {
   public async approve(id: number, address: string, amount: number, message: string) {   
     
     let result:string;
-    console.log('sending approve transaction transaction... (please wait)');
+    console.log('sending approve transaction... (please wait)');
     try {      
 
     return this.contractRccDao.methods.approve(id, address, amount, message).send({from: this.web3Service.default_account.account, gasPrice: '20000000000' })
@@ -323,20 +336,20 @@ export class RccDaoService {
     this.askList = new Array<any>();      
 
     let result:string;
-    console.log('sending transaction transaction... (please wait)');
-    try {    
-      
+    console.log('sending check transaction... (please wait)');
+    try {          
       this.contractRccDao.getPastEvents('Approve', { filter:  {associatted_address: address}, fromBlock: 0, toBlock: 'latest' }, (error, aproveEvents) => { 
         //console.log("------EVENTOS: " + JSON.stringify(aproveEvents));            
         if (aproveEvents){
+          
           aproveEvents.forEach(element => {
             this.approveList.push({address:element.returnValues.ask_address, id:element.returnValues.id, amount:element.returnValues.amount, message:element.returnValues.message})  
             //console.log("approveList: " + JSON.stringify(this.approveList))
-          });                   
-          
+          });                             
           this.contractRccDao.getPastEvents('Ask', { filter:  {associatted_address: address}, fromBlock: 0, toBlock: 'latest' }, (error, askEvents) => { 
-            //console.log("------EVENTOS: " + JSON.stringify(askEvents));            
+            //console.log("------EVENTOS: " + JSON.stringify(askEvents));                        
             if (askEvents){              
+
               askEvents.forEach(element => {                
                 if (!this.checkApproveEvent(element.returnValues.id)){
                   this.askList.push({address:element.returnValues.ask_address, id:element.returnValues.id, amount:element.returnValues.amount, message:element.returnValues.message})  
