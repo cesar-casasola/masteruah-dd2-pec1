@@ -13,7 +13,7 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "webpack": "^4.26.1",
+    "webpack": "^5.75.0",
     "webpack-dev-server": "^3.1.10",
     "openzeppelin-solidity": "^1.10.0"
   }
